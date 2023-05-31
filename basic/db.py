@@ -1,5 +1,6 @@
 from sqlite3 import connect, PARSE_DECLTYPES, Row
 from flask import current_app, g
+from click import command, echo
 
 
 def get_db():
@@ -22,3 +23,9 @@ def __init_db():
     db = get_db()
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
+
+
+@command('init-db')
+def __init_db_command():
+    __init_db()
+    echo('Initialized the db')
