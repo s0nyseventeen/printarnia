@@ -11,4 +11,7 @@ def create_app():
     from .auth import bp
     app.register_blueprint(bp)
 
+    from .gallery import bp
+    app.register_blueprint(bp)
+
     return app
