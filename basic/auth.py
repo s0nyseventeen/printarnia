@@ -6,7 +6,8 @@ from flask import (
     flash,
     render_template,
     session,
-    g
+    g,
+    abort
 )
 from .db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -63,7 +64,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('gallery.index'))
         flash(error)
     return render_template('auth/login.html')
 
@@ -80,17 +81,17 @@ def load_logged_in_user():
         ).fetchone()
 
 
-@bp.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('index'))
-
-
 def login_required(view):
 
     @wraps(view)
     def wrapper(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
+        if g.user is None or g.user['username'] != 'admin':
+            return abort(403)
         return view(**kwargs)
     return wrapper
+
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('gallery.index'))

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>
+		{% block title %}Gallery{% endblock %}
+	</h1>
+{% endblock %}
+
+{% block content %}
+	{% for w in works %}
+		<article class="post">
+			<header>
+				<div>
+					<h1>{{ w['title'] }}</h1>
+					<div class="about">
+						<p>{{ w['description'] }}</p>
+						<p>created: {{ w['created'] }}</p>
+						<p>image: {{ w['image'] }}</p>
+					</div>
+				</div>
+			</header>
+		</article>
+		{% if not loop.last %}
+			<hr>
+		{% endif %}
+	{% endfor %}
+{% endblock %}
