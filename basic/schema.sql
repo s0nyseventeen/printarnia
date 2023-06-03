@@ -12,5 +12,6 @@ CREATE TABLE work (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	title TEXT UNIQUE NOT NULL,
 	created TEXT NOT NULL,
-	description TEXT NOT NULL
+	description TEXT,
+	image TEXT
 );
