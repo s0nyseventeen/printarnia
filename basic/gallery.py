@@ -3,12 +3,14 @@ from flask import (
     render_template,
     request,
     flash,
+    current_app,
     redirect,
     url_for
 )
 from .db import get_db
 from .auth import login_required
 import datetime
+from pathlib import Path
 
 bp = Blueprint('gallery', __name__)
 
@@ -23,10 +25,10 @@ def index():
 @login_required
 def __create():
     if request.method == 'POST':
-        title = request.form['title']
+        title = request.form.get('title')
         created = datetime.datetime.now()
-        description = request.form['description']
-        image = request.form['image']
+        description = request.form.get('description')
+        image = request.files.get('image')
         error = None
 
         if not title:
@@ -39,8 +41,9 @@ def __create():
             db.execute(
                 'INSERT INTO work (title, created, description, image) '
                 'VALUES (?, ?, ?, ?)',
-                (title, created, description, image)
+                (title, created, description, image.filename)
             )
             db.commit()
+            image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
             return redirect(url_for('gallery.index'))
     return render_template('gallery/create.html')
