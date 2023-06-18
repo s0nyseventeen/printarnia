@@ -1,9 +1,11 @@
-from unittest import TestCase, main
-from unittest.mock import patch
-from . import app_factory
 import os
-from basic.db import get_db
 from sqlite3 import ProgrammingError
+from unittest import main
+from unittest import TestCase
+from unittest.mock import patch
+
+from . import app_factory
+from basic.db import get_db
 
 
 class TestDb(TestCase):

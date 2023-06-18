@@ -1,5 +1,6 @@
 from pathlib import Path
 from tempfile import mkstemp
+
 from basic import create_app
 from basic.db import get_db, init_db
 
@@ -32,3 +33,9 @@ class Auth:
 
     def logout(self):
         return self.__client.get('/auth/logout')
+
+
+def get_logfile() -> str:
+    with open('basic.log') as f:
+        logfile = f.read()
+    return logfile

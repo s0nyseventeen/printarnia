@@ -1,8 +1,14 @@
-from unittest import TestCase, main
-from . import app_factory, Auth
 import os
+from unittest import main
+from unittest import TestCase
+
+from flask import g
+from flask import session
+
+from . import app_factory
+from . import Auth
+from . import get_logfile
 from basic.db import get_db
-from flask import session, g
 
 
 class TestAuth(TestCase):
@@ -10,6 +16,7 @@ class TestAuth(TestCase):
         self.app, self.db_fake, self.db_path = app_factory()
         self.test_client = self.app.test_client()
         self.auth = Auth(self.test_client)
+        self.logfile = get_logfile()
 
     def tearDown(self):
         os.close(self.db_fake)
@@ -74,6 +81,12 @@ class TestAuth(TestCase):
         with self.test_client:
             self.auth.logout()
             self.assertNotIn('user_id', session)
+
+    def test_register_log(self):
+        self.assertIn('User a is registered', self.logfile)
+
+    def test_login_log(self):
+        self.assertIn('User test is logged in', self.logfile)
 
 
 if __name__ == '__main__':

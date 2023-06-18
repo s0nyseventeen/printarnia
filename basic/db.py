@@ -1,5 +1,9 @@
-from sqlite3 import connect, PARSE_DECLTYPES, Row
-from flask import current_app, g
+from sqlite3 import connect
+from sqlite3 import PARSE_DECLTYPES
+from sqlite3 import Row
+
+from flask import current_app
+from flask import g
 from click import command, echo
 
 

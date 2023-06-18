@@ -1,16 +1,16 @@
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    flash,
-    current_app,
-    redirect,
-    url_for
-)
-from .db import get_db
-from .auth import login_required
 import datetime
 from pathlib import Path
+
+from flask import Blueprint
+from flask import render_template
+from flask import request
+from flask import flash
+from flask import current_app
+from flask import redirect
+from flask import url_for
+
+from .auth import login_required
+from .db import get_db
 
 bp = Blueprint('gallery', __name__)
 
@@ -18,6 +18,7 @@ bp = Blueprint('gallery', __name__)
 @bp.route('/')
 def index():
     works = get_db().execute('SELECT * FROM work ORDER BY created;').fetchall()
+    current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
 
@@ -45,5 +46,6 @@ def __create():
             )
             db.commit()
             image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+            current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
     return render_template('gallery/create.html')
