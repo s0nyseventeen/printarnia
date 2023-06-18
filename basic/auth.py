@@ -1,19 +1,19 @@
-from flask import (
-    Blueprint,
-    request,
-    redirect,
-    url_for,
-    flash,
-    render_template,
-    session,
-    g,
-    abort,
-    current_app
-)
+from functools import wraps
+
+from flask import Blueprint
+from flask import request
+from flask import redirect
+from flask import url_for
+from flask import flash
+from flask import render_template
+from flask import session
+from flask import g
+from flask import abort
+from flask import current_app
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 
 from .db import get_db
-from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 

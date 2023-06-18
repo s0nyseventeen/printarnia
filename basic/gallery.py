@@ -1,16 +1,16 @@
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    flash,
-    current_app,
-    redirect,
-    url_for
-)
-from .db import get_db
-from .auth import login_required
 import datetime
 from pathlib import Path
+
+from flask import Blueprint
+from flask import render_template
+from flask import request
+from flask import flash
+from flask import current_app
+from flask import redirect
+from flask import url_for
+
+from .auth import login_required
+from .db import get_db
 
 bp = Blueprint('gallery', __name__)
 
