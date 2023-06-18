@@ -7,8 +7,10 @@ from flask import (
     render_template,
     session,
     g,
-    abort
+    abort,
+    current_app
 )
+
 from .db import get_db
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -39,6 +41,7 @@ def register():
                     (username, generate_password_hash(password), email)
                 )
                 db.commit()
+                current_app.logger.info('User %s is registered' % username)
                 return redirect(url_for('auth.login'))
             except db.IntegrityError:
                 error = f'User {username} is already registered'
@@ -64,6 +67,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+            current_app.logger.info('User %s is logged in' % username)
             return redirect(url_for('gallery.index'))
         flash(error)
     return render_template('auth/login.html')
@@ -94,4 +98,5 @@ def login_required(view):
 @bp.route('/logout')
 def logout():
     session.clear()
+    current_app.logger.info('User is logged out')
     return redirect(url_for('gallery.index'))

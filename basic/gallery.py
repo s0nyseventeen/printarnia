@@ -18,6 +18,7 @@ bp = Blueprint('gallery', __name__)
 @bp.route('/')
 def index():
     works = get_db().execute('SELECT * FROM work ORDER BY created;').fetchall()
+    current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
 
@@ -45,5 +46,6 @@ def __create():
             )
             db.commit()
             image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+            current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
     return render_template('gallery/create.html')
