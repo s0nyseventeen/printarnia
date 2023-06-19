@@ -55,6 +55,33 @@ def __create():
     return render_template('gallery/create.html')
 
 
+@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@login_required
+def __update(id: int):
+    work = get_work(id)
+    match request.method:
+        case 'POST':
+            title = request.form['title']
+            description = request.form['description']
+            image = request.files.get('image')
+
+            if __check_image(image):
+                __insert(
+                    'UPDATE work SET title = ?, description = ? WHERE id = ?',
+                    (title, description, id)
+                )
+                current_app.logger.info('Work %s was updated' % title)
+                return redirect(url_for('gallery.index'))
+            __insert(
+                'UPDATE work SET title = ?, description = ?, image = ? WHERE id = ?',
+                (title, description, image.filename, id)
+            )
+            image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+            return redirect(url_for('gallery.index'))
+        case _:
+            return render_template('gallery/update.html', work=work)
+
+
 def get_work(id: int):
     work = get_db().execute(
         'SELECT * FROM work WHERE id = ?;', (id,)
