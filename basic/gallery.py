@@ -2,11 +2,11 @@ import datetime
 from pathlib import Path
 
 from flask import Blueprint
+from flask import current_app
+from flask import flash
+from flask import redirect
 from flask import render_template
 from flask import request
-from flask import flash
-from flask import current_app
-from flask import redirect
 from flask import url_for
 from werkzeug.exceptions import abort
 
