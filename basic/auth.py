@@ -8,8 +8,8 @@ from flask import flash
 from flask import render_template
 from flask import session
 from flask import g
-from flask import abort
 from flask import current_app
+from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
