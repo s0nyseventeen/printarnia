@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Edit "{{ work['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<form method="post" enctype="multipart/form-data">
+		<label for="title">Title</label>
+		<input name="title" id="title" value="{{ request.form['title'] or work['title'] }}" required>
+		<label for="description">Description</label>
+		<textarea name="description" id="description">{{ request.form['description'] or work['description'] }}</textarea>
+		<input name="image" type="file">
+		<input type="submit" value="Save">
+	</form>
+{% endblock %}
