@@ -8,6 +8,7 @@ from flask import flash
 from flask import current_app
 from flask import redirect
 from flask import url_for
+from werkzeug.exceptions import abort
 
 from .auth import login_required
 from .db import get_db
@@ -49,3 +50,14 @@ def __create():
             current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
     return render_template('gallery/create.html')
+
+
+def get_work(id: int):
+    work = get_db().execute(
+        'SELECT * FROM work WHERE id = ?;', (id,)
+    ).fetchone()
+
+    match work:
+        case None:
+            abort(404, f'Work id {id} does not exist')
+    return work
