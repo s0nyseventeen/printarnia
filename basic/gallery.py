@@ -82,6 +82,17 @@ def __update(id: int):
             return render_template('gallery/update.html', work=work)
 
 
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id: int):
+    work = get_work(id)
+    db = get_db()
+    db.execute('DELETE FROM work WHERE id = ?', (id,))
+    db.commit()
+    current_app.logger.info('Work %s was deleted', work['title'])
+    return redirect(url_for('gallery.index'))
+
+
 def get_work(id: int):
     work = get_db().execute(
         'SELECT * FROM work WHERE id = ?;', (id,)

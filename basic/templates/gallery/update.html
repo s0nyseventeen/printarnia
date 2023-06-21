@@ -13,4 +13,8 @@
 		<input name="image" type="file">
 		<input type="submit" value="Save">
 	</form>
+	<hr>
+	<form action="{{ url_for('gallery.delete', id=work['id']) }}" method="post">
+		<input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+	</form>
 {% endblock %}
