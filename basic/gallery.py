@@ -32,13 +32,9 @@ def __create():
         created = datetime.datetime.now()
         description = request.form.get('description')
         image = request.files.get('image')
-        error = None
 
         if not title:
-            error = 'Title is required'
-
-        if error is not None:
-            flash(error)
+            flash('Title is required')
         else:
             db = get_db()
             db.execute(
