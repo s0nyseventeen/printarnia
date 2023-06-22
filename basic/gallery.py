@@ -1,5 +1,6 @@
 import datetime
 from pathlib import Path
+from typing import Any
 
 from flask import Blueprint
 from flask import current_app
@@ -61,3 +62,9 @@ def get_work(id: int):
         case None:
             abort(404, f'Work id {id} does not exist')
     return work
+
+
+def __insert(query: str, args: tuple[Any, ...]):
+    db = get_db()
+    db.execute(query, args)
+    db.commit()
