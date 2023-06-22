@@ -35,17 +35,23 @@ def __create():
 
         if not title:
             flash('Title is required')
-        else:
-            db = get_db()
-            db.execute(
-                'INSERT INTO work (title, created, description, image) '
-                'VALUES (?, ?, ?, ?)',
-                (title, created, description, image.filename)
+
+        if __check_image(image):
+            __insert(
+                'INSERT INTO work (title, created, description) '
+                'VALUES (?, ?, ?)',
+                (title, created, description)
             )
-            db.commit()
-            image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
             current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
+
+        __insert(
+            'INSERT INTO work (title, created, description, image) '
+            'VALUES (?, ?, ?, ?)',
+            (title, created, description, image.filename)
+        )
+        image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+        return redirect(url_for('gallery.index'))
     return render_template('gallery/create.html')
 
 
@@ -58,6 +64,10 @@ def get_work(id: int):
         case None:
             abort(404, f'Work id {id} does not exist')
     return work
+
+
+def __check_image(image) -> bool:
+    return image.filename == ''
 
 
 def __insert(query: str, args: tuple[Any, ...]):
