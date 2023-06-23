@@ -57,7 +57,7 @@ def __create():
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
-def __update(id: int):
+def __update(id):
     work = get_work(id)
     match request.method:
         case 'POST':
@@ -84,7 +84,7 @@ def __update(id: int):
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
-def delete(id: int):
+def delete(id):
     work = get_work(id)
     db = get_db()
     db.execute('DELETE FROM work WHERE id = ?', (id,))
@@ -93,7 +93,7 @@ def delete(id: int):
     return redirect(url_for('gallery.index'))
 
 
-def get_work(id: int):
+def get_work(id):
     work = get_db().execute(
         'SELECT * FROM work WHERE id = ?;', (id,)
     ).fetchone()
