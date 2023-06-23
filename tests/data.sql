@@ -3,4 +3,4 @@ INSERT INTO user (username, email, password) VALUES
 	('admin', 'admin@email.ua', 'pbkdf2:sha256:600000$X5N5KGOxzPfPJ2NS$05351f0c79ba5ef71cce241341735b4120ea5a9dcfb1632b954b8e7369b89d2d');
 
 INSERT INTO work (title, created, description, image)
-VALUES ('Test title', '2023-06-05 00:00:00', 'New design', 'someimage.gpj');
+VALUES ('Test title', '2023-06-05 00:00:00', 'New design', 'someimage.jpg');

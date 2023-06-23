@@ -1,5 +1,6 @@
 import io
 import os
+from pathlib import Path
 from unittest import main
 from unittest import TestCase
 
@@ -42,7 +43,7 @@ class TestGallery(TestCase):
         resp = self.client.get('/create')
         self.assertIn(b'Add work', resp.data)
 
-    def test_work_create(self):
+    def test_create(self):
         self.auth.login('admin', 'admin')
         self.client.post(
             '/create',
@@ -91,6 +92,25 @@ class TestGallery(TestCase):
             self.assertIsNone(work)
 
         self.assertIn('Work Test title was deleted', self.logfile)
+
+    def test_detail(self):
+        resp = self.client.get('/1')
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(b'Test title', resp.data)
+
+    def test_remove_photo(self):
+        self.auth.login('admin', 'admin')
+        path = Path(self.app.config['UPLOAD_FOLDER']) / 'someimage.jpg'
+
+        if not os.path.exists(path):
+            os.mknod(path)
+
+        resp = self.client.post('/1/remove_photo')
+        self.assertEqual(resp.headers.get('Location'), '/')
+
+        with self.app.app_context():
+            image = get_db().execute('SELECT image FROM work WHERE id = 1').fetchone()
+            self.assertIsNone(image['image'])
 
 
 if __name__ == '__main__':
