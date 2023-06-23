@@ -2,8 +2,8 @@ import os
 from unittest import main
 from unittest import TestCase
 
-from basic import create_app
 from . import app_factory
+from basic import create_app
 
 
 class BasicTest(TestCase):

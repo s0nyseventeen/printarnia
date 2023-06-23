@@ -39,3 +39,6 @@ def get_logfile() -> str:
     with open('basic.log') as f:
         logfile = f.read()
     return logfile
+
+
+logfile = get_logfile()

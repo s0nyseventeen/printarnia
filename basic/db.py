@@ -4,7 +4,8 @@ from sqlite3 import Row
 
 from flask import current_app
 from flask import g
-from click import command, echo
+from click import command
+from click import echo
 
 
 def get_db():

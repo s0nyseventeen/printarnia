@@ -5,15 +5,17 @@ from unittest import TestCase
 
 from . import app_factory
 from . import Auth
-from . import get_logfile
+from . import logfile
+from basic.db import get_db
+from basic.gallery import get_work
 
 
 class TestGallery(TestCase):
     def setUp(self):
         self.app, self.db_fake, self.db_path = app_factory()
-        self.test_client = self.app.test_client()
-        self.auth = Auth(self.test_client)
-        self.logfile = get_logfile()
+        self.client = self.app.test_client()
+        self.auth = Auth(self.client)
+        self.logfile = logfile
 
     def tearDown(self):
         os.close(self.db_fake)
@@ -23,26 +25,26 @@ class TestGallery(TestCase):
         self.assertIn(b'New design', self.app.test_client().get('/').data)
 
     def test_index_without_login(self):
-        resp = self.test_client.get('/')
+        resp = self.client.get('/')
         self.assertIn(b'Log In', resp.data)
         self.assertIn(b'Register', resp.data)
 
     def test_index_login(self):
         self.auth.login()
-        resp = self.test_client.get('/')
+        resp = self.client.get('/')
         self.assertIn(b'Log Out', resp.data)
 
     def test_create_login_required(self):
-        self.assertEqual(self.test_client.get('/create').status_code, 403)
+        self.assertEqual(self.client.get('/create').status_code, 403)
 
     def test_create_login_required_like_admin(self):
         self.auth.login('admin', 'admin')
-        resp = self.test_client.get('/create')
+        resp = self.client.get('/create')
         self.assertIn(b'Add work', resp.data)
 
     def test_work_create(self):
         self.auth.login('admin', 'admin')
-        self.test_client.post(
+        self.client.post(
             '/create',
             data={
                 'title': 'test_image',
@@ -55,6 +57,40 @@ class TestGallery(TestCase):
 
     def test_index_log(self):
         self.assertIn('Works are rendered', self.logfile)
+
+    def test_get_work(self):
+        with self.app.app_context():
+            self.assertEqual(get_work(1)['title'], 'Test title')
+
+    def test__update(self):
+        self.auth.login('admin', 'admin')
+        self.assertEqual(self.client.get('/1/update').status_code, 200)
+
+        self.client.post(
+            '/1/update',
+            data={
+                'title': 'Updated',
+                'description': 'updated',
+                'image': (io.BytesIO(b'randomstr'), 'updated.jpg')
+            },
+            content_type='multipart/form-data'
+        )
+
+        with self.app.app_context():
+            work = get_db().execute('SELECT * FROM work WHERE id = 1').fetchone()
+            self.assertEqual(work['title'], 'Updated')
+        self.assertIn('Work Updated was updated', self.logfile)
+
+    def test_delete(self):
+        self.auth.login('admin', 'admin')
+        resp = self.client.post('/1/delete')
+        self.assertEqual(resp.headers.get('Location'), '/')
+
+        with self.app.app_context():
+            work = get_db().execute('SELECT * FROM work WHERE id = 1').fetchone()
+            self.assertIsNone(work)
+
+        self.assertIn('Work Test title was deleted', self.logfile)
 
 
 if __name__ == '__main__':
