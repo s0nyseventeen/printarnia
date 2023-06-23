@@ -26,7 +26,7 @@ def index():
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
-def __create():
+def create():
     if request.method == 'POST':
         title = request.form.get('title')
         created = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
