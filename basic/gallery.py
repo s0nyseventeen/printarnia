@@ -82,6 +82,11 @@ def __update(id):
             return render_template('gallery/update.html', work=work)
 
 
+@bp.route('/<int:id>')
+def detail(id):
+    return render_template('gallery/work.html', work=get_work(id))
+
+
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):

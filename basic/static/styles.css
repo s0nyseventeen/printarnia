@@ -132,3 +132,7 @@ input[type=submit] {
   align-self: start;
   min-width: 10em;
 }
+
+.work-img {
+  max-width: 100%;
+}
