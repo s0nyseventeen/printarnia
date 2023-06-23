@@ -29,7 +29,7 @@ def index():
 def __create():
     if request.method == 'POST':
         title = request.form.get('title')
-        created = datetime.datetime.now()
+        created = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         description = request.form.get('description')
         image = request.files.get('image')
 
