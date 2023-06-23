@@ -15,7 +15,11 @@
 					<div class="about">
 						<p>{{ w['description'] }}</p>
 						<p>created: {{ w['created'] }}</p>
-						<img class="work-img" src="static/images/{{ w['image'] }}" alt="Not Found">
+					{% if w['image'] %}
+						<img class="work-img" src="{{ url_for('static', filename='images/' + w['image']) }}">
+					{% else %}
+						<p>Not Found</p>
+					{% endif %}
 					</div>
 				</div>
 			</header>

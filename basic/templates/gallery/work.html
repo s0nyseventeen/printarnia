@@ -11,7 +11,11 @@
 				<div class="about">
 					<p>{{ work.description }}</p>
 					<p>created: {{ work.created }}</p>
-					<img class="work-img" src="{{ url_for('static', filename='images/' + work.image) }}" alt="Not Found">
+					{% if work.image %}
+						<img class="work-img" src="{{ url_for('static', filename='images/' + work.image) }}">
+					{% else %}
+						<p>Not Found</p>
+					{% endif %}
 				</div>
 			</div>
 		</header>
