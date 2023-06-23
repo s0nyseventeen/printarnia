@@ -19,7 +19,7 @@ bp = Blueprint('gallery', __name__)
 
 @bp.route('/')
 def index():
-    works = get_db().execute('SELECT * FROM work ORDER BY created;').fetchall()
+    works = get_db().execute('SELECT * FROM work ORDER BY created DESC;').fetchall()
     current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
