@@ -16,6 +16,11 @@
 					{% else %}
 						<p>Not Found</p>
 					{% endif %}
+					{% if g.user['username'] == 'admin' %}
+						<form action="{{ url_for('gallery.update', id=work.id) }}">
+							<input class="primary" type="submit" value="Update">
+						</form>
+					{% endif %}
 				</div>
 			</div>
 		</header>

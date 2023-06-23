@@ -57,7 +57,7 @@ def create():
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
-def __update(id):
+def update(id):
     work = get_work(id)
     match request.method:
         case 'POST':

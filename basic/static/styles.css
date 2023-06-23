@@ -128,6 +128,10 @@ input.danger {
   color: #cc2f2e;
 }
 
+input.primary {
+  color: #1f3f72
+}
+
 input[type=submit] {
   align-self: start;
   min-width: 10em;
