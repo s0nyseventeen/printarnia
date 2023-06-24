@@ -1,4 +1,5 @@
 import datetime
+import os
 from pathlib import Path
 from typing import Any
 
@@ -19,17 +20,17 @@ bp = Blueprint('gallery', __name__)
 
 @bp.route('/')
 def index():
-    works = get_db().execute('SELECT * FROM work ORDER BY created;').fetchall()
+    works = get_db().execute('SELECT * FROM work ORDER BY created DESC;').fetchall()
     current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
-def __create():
+def create():
     if request.method == 'POST':
         title = request.form.get('title')
-        created = datetime.datetime.now()
+        created = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         description = request.form.get('description')
         image = request.files.get('image')
 
@@ -57,7 +58,7 @@ def __create():
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
-def __update(id: int):
+def update(id):
     work = get_work(id)
     match request.method:
         case 'POST':
@@ -82,9 +83,14 @@ def __update(id: int):
             return render_template('gallery/update.html', work=work)
 
 
+@bp.route('/<int:id>')
+def detail(id):
+    return render_template('gallery/work.html', work=get_work(id))
+
+
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
-def delete(id: int):
+def delete(id):
     work = get_work(id)
     db = get_db()
     db.execute('DELETE FROM work WHERE id = ?', (id,))
@@ -93,7 +99,17 @@ def delete(id: int):
     return redirect(url_for('gallery.index'))
 
 
-def get_work(id: int):
+@bp.route('/<int:id>/remove_photo', methods=('POST',))
+def remove_photo(id):
+    work = get_work(id)
+    db = get_db()
+    db.execute("UPDATE work SET image = NULL WHERE id = ?;", (id,))
+    db.commit()
+    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / work['image'])
+    return redirect(url_for('gallery.index'))
+
+
+def get_work(id):
     work = get_db().execute(
         'SELECT * FROM work WHERE id = ?;', (id,)
     ).fetchone()
