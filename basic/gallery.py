@@ -1,4 +1,5 @@
 import datetime
+import os
 from pathlib import Path
 from typing import Any
 
@@ -95,6 +96,16 @@ def delete(id):
     db.execute('DELETE FROM work WHERE id = ?', (id,))
     db.commit()
     current_app.logger.info('Work %s was deleted', work['title'])
+    return redirect(url_for('gallery.index'))
+
+
+@bp.route('/<int:id>/remove_photo', methods=('POST',))
+def remove_photo(id):
+    work = get_work(id)
+    db = get_db()
+    db.execute("UPDATE work SET image = NULL WHERE id = ?;", (id,))
+    db.commit()
+    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / work['image'])
     return redirect(url_for('gallery.index'))
 
 
