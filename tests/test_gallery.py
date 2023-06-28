@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from . import app_factory
 from . import Auth
-from . import logfile
+from . import get_logfile
 from basic.db import get_db
 from basic.gallery import get_work
 
@@ -16,7 +16,6 @@ class TestGallery(TestCase):
         self.app, self.db_fake, self.db_path = app_factory()
         self.client = self.app.test_client()
         self.auth = Auth(self.client)
-        self.logfile = logfile
 
     def tearDown(self):
         os.close(self.db_fake)
@@ -56,7 +55,7 @@ class TestGallery(TestCase):
         )
 
     def test_index_log(self):
-        self.assertIn('Works are rendered', self.logfile)
+        self.assertIn('Works are rendered', get_logfile())
 
     def test_get_work(self):
         with self.app.app_context():
@@ -89,7 +88,7 @@ class TestGallery(TestCase):
             work = get_db().execute('SELECT * FROM work WHERE id = 1').fetchone()
             self.assertIsNone(work)
 
-        self.assertIn('Work Test title was deleted', self.logfile)
+        self.assertIn('Work Test title was deleted', get_logfile())
 
     def test_detail(self):
         resp = self.client.get('/1')

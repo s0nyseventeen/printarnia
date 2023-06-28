@@ -7,7 +7,7 @@ from flask import session
 
 from . import app_factory
 from . import Auth
-from . import logfile
+from . import get_logfile
 from basic.db import get_db
 
 
@@ -16,7 +16,6 @@ class TestAuth(TestCase):
         self.app, self.db_fake, self.db_path = app_factory()
         self.client = self.app.test_client()
         self.auth = Auth(self.client)
-        self.logfile = logfile
 
     def tearDown(self):
         os.close(self.db_fake)
@@ -41,7 +40,7 @@ class TestAuth(TestCase):
                     "SELECT * FROM user WHERE username = 'a';"
                 ).fetchone()
             )
-        self.assertIn('User a is registered', self.logfile)
+        self.assertIn('User a is registered', get_logfile())
 
     def test_register_validate_input_missed(self):
         resp = self.client.post(
@@ -72,7 +71,7 @@ class TestAuth(TestCase):
             self.assertEqual(session['user_id'], 1)
             self.assertEqual(g.user['username'], 'test')
 
-        self.assertIn('User test is logged in', self.logfile)
+        self.assertIn('User test is logged in', get_logfile())
 
     def test_login_input(self):
         resp = self.auth.login('a', 'testiti')
