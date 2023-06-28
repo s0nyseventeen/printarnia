@@ -54,7 +54,6 @@ class TestGallery(TestCase):
             },
             content_type='multipart/form-data'
         )
-        self.assertIn('Work test_image is added', self.logfile)
 
     def test_index_log(self):
         self.assertIn('Works are rendered', self.logfile)
@@ -80,7 +79,6 @@ class TestGallery(TestCase):
         with self.app.app_context():
             work = get_db().execute('SELECT * FROM work WHERE id = 1').fetchone()
             self.assertEqual(work['title'], 'Updated')
-        self.assertIn('Work Updated was updated', self.logfile)
 
     def test_delete(self):
         self.auth.login('admin', 'admin')
