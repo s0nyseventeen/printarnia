@@ -53,6 +53,7 @@ class TestGallery(TestCase):
             },
             content_type='multipart/form-data'
         )
+        os.remove(Path(self.app.config['UPLOAD_FOLDER']) / 'test.jpg')
 
     def test_index_log(self):
         self.assertIn('Works are rendered', get_logfile())
@@ -78,6 +79,8 @@ class TestGallery(TestCase):
         with self.app.app_context():
             work = get_db().execute('SELECT * FROM work WHERE id = 1').fetchone()
             self.assertEqual(work['title'], 'Updated')
+
+        os.remove(Path(self.app.config['UPLOAD_FOLDER']) / 'updated.jpg')
 
     def test_delete(self):
         self.auth.login('admin', 'admin')
