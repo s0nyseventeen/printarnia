@@ -60,27 +60,25 @@ def create():
 @login_required
 def update(id):
     work = get_work(id)
-    match request.method:
-        case 'POST':
-            title = request.form['title']
-            description = request.form['description']
-            image = request.files.get('image')
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        image = request.files.get('image')
 
-            if __check_image(image):
-                __insert(
-                    'UPDATE work SET title = ?, description = ? WHERE id = ?',
-                    (title, description, id)
-                )
-                current_app.logger.info('Work %s was updated' % title)
-                return redirect(url_for('gallery.index'))
+        if __check_image(image):
             __insert(
-                'UPDATE work SET title = ?, description = ?, image = ? WHERE id = ?',
-                (title, description, image.filename, id)
+                'UPDATE work SET title = ?, description = ? WHERE id = ?',
+                (title, description, id)
             )
-            image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+            current_app.logger.info('Work %s was updated' % title)
             return redirect(url_for('gallery.index'))
-        case _:
-            return render_template('gallery/update.html', work=work)
+        __insert(
+            'UPDATE work SET title = ?, description = ?, image = ? WHERE id = ?',
+            (title, description, image.filename, id)
+        )
+        image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+        return redirect(url_for('gallery.index'))
+    return render_template('gallery/update.html', work=work)
 
 
 @bp.route('/<int:id>')
@@ -114,9 +112,8 @@ def get_work(id):
         'SELECT * FROM work WHERE id = ?;', (id,)
     ).fetchone()
 
-    match work:
-        case None:
-            abort(404, f'Work id {id} does not exist')
+    if work is None:
+        abort(404, f'Work id {id} does not exist')
     return work
 
 
