@@ -14,7 +14,11 @@
 					<h1><a href="{{ url_for('gallery.detail', id=w.id) }}">{{ w['title'] }}</a></h1>
 					<div class="about">
 						<p>{{ w['description'] }}</p>
-						<p>created: {{ w['created'] }}</p>
+
+						{% if g.user['username'] == 'admin' %}
+							<p>created: {{ w['created'] }}</p>
+						{% endif %}
+
 					{% if w['image'] %}
 						<img class="work-img" src="{{ url_for('static', filename='images/' + w['image']) }}">
 					{% else %}
