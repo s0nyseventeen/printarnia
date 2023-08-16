@@ -1,7 +1,6 @@
 import datetime
 import os
 from pathlib import Path
-from typing import Any
 
 from flask import Blueprint
 from flask import current_app
@@ -23,7 +22,13 @@ bp = Blueprint('gallery', __name__)
 
 @bp.route('/')
 def index():
-    works = get_db().execute('SELECT * FROM work ORDER BY created DESC;').fetchall()
+    db = get_db()
+    db.cur.execute(
+        SQL('SELECT * FROM {table} ORDER BY created DESC;').format(
+            table=Identifier('work')
+        )
+    )
+    works = db.cur.fetchall()
     current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
@@ -151,9 +156,13 @@ def remove_photo(id):
 
 
 def get_work(id):
-    work = get_db().execute(
-        'SELECT * FROM work WHERE id = ?;', (id,)
-    ).fetchone()
+    db = get_db()
+    db.cur.execute(
+        SQL('SELECT * FROM {table} WHERE id = {id};').format(
+            table=Identifier('work'), id=Literal(id)
+        )
+    )
+    work = db.cur.fetchone()
 
     if work is None:
         abort(404, f'Work id {id} does not exist')
