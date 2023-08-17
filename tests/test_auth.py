@@ -1,89 +1,116 @@
-import os
-from unittest import main
-from unittest import TestCase
-
 from flask import g
 from flask import session
 
-from . import app_factory
-from . import Auth
-from . import get_logfile
+from .conftest import DEFAULT_USER
 from basic.db import get_db
 
 
-class TestAuth(TestCase):
-    def setUp(self):
-        self.app, self.db_fake, self.db_path = app_factory()
-        self.client = self.app.test_client()
-        self.auth = Auth(self.client)
+def test_register_get_request(app, client):
+    assert b'Register' in client.get('/auth/register').data
 
-    def tearDown(self):
-        os.close(self.db_fake)
-        os.unlink(self.db_path)
 
-    def test_register_status_code(self):
-        self.assertEqual(
-            self.client.get('/auth/register').status_code,
-            200
+def test_register_status_code(app, client):
+    assert client.get('/auth/login').status_code == 200
+
+
+def test_register_redirect(auth):
+    assert auth.register(DEFAULT_USER).headers['Location'] == '/auth/login'
+
+
+def test_register_user(auth, app):
+    auth.register(DEFAULT_USER)
+    with app.app_context():
+        db = get_db()
+        db.cur.execute(
+            "SELECT * FROM users WHERE username = 'test';"
         )
-
-    def test_register_user(self):
-        resp = self.client.post(
-            '/auth/register',
-            data={'username': 'a', 'password': 'a', 'email': 'a@mail.ua'}
-        )
-        self.assertEqual(resp.headers['Location'], '/auth/login')
-
-        with self.app.app_context():
-            self.assertIsNotNone(
-                get_db().execute(
-                    "SELECT * FROM user WHERE username = 'a';"
-                ).fetchone()
-            )
-        self.assertIn('User a is registered', get_logfile())
-
-    def test_register_validate_input_missed(self):
-        resp = self.client.post(
-            'auth/register',
-            data={'username': '', 'password': 'a', 'email': 'a@mail.ua'}
-        )
-        self.assertIn(b'Username is required', resp.data)
-
-        resp = self.client.post(
-            'auth/register',
-            data={'username': 'a', 'password': '', 'email': 'a@mail.ua'}
-        )
-        self.assertIn(b'Password is required', resp.data)
-
-        resp = self.client.post(
-            'auth/register',
-            data={'username': 'a', 'password': 'a', 'email': ''}
-        )
-        self.assertIn(b'Email is required', resp.data)
-
-    def test_login(self):
-        self.assertEqual(self.client.get('/auth/login').status_code, 200)
-        resp = self.auth.login()
-        self.assertEqual(resp.headers['Location'], '/')
-
-        with self.client:
-            self.client.get('/')
-            self.assertEqual(session['user_id'], 1)
-            self.assertEqual(g.user['username'], 'test')
-
-        self.assertIn('User test is logged in', get_logfile())
-
-    def test_login_input(self):
-        resp = self.auth.login('a', 'testiti')
-        self.assertIn(b'Incorrect username', resp.data)
-
-    def test_logout(self):
-        self.auth.login()
-
-        with self.client:
-            self.auth.logout()
-            self.assertNotIn('user_id', session)
+        assert db.cur.fetchone() is not None
 
 
-if __name__ == '__main__':
-    main()
+def test_register_validate_username_missed(auth):
+    resp = auth.register({'username': '', 'password': 'a', 'email': 'a@mail.ua'})
+    assert b'Username is required' in resp.data
+
+
+def test_register_validate_password_missed(auth):
+    resp = auth.register({'username': 'a', 'password': '', 'email': 'a@mail.ua'})
+    assert b'Password is required' in resp.data
+
+
+def test_register_validate_email_missed(auth):
+    resp = auth.register({'username': 'a', 'password': 'a', 'email': ''})
+    assert b'Email is required' in resp.data
+
+
+def test_register_exception_uniqueness(app, auth):
+    for _ in range(2):
+        resp = auth.register(DEFAULT_USER)
+    assert b'User test is already registered' in resp.data
+
+    with app.app_context():
+        db = get_db()
+        db._Db__conn.rollback()
+
+
+def test_login_get_request(client):
+    assert b'Log In' in client.get('/auth/login').data
+
+
+def test_login_status_code(client):
+    assert client.get('/auth/login').status_code == 200
+
+
+def test_login_redirect(auth):
+    auth.register(DEFAULT_USER)
+    assert auth.login().headers['Location'] == '/'
+
+
+def test_login_validate_username(auth):
+    auth.register(DEFAULT_USER)
+    assert b'Incorrect username' in auth.login(username='wrong_username').data
+
+
+def test_login_validate_password(auth):
+    auth.register(DEFAULT_USER)
+    assert b'Incorrect password' in auth.login(password='wrong_password').data
+
+
+def test_login_noerror_redirect(auth):
+    auth.register(DEFAULT_USER)
+    assert '/' in auth.login().headers['Location']
+
+
+def test_load_logged_in_user_not_loggedin(app, client):
+    with app.app_context():
+        client.get('/auth/login')
+        assert g.user is None
+
+
+def test_load_logged_in_user(auth, client):
+    auth.register(DEFAULT_USER)
+    auth.login()
+
+    with client:
+        client.get('/')
+        assert session['user_id'] is not None
+
+
+def test_login_required_not_admin(client):
+    assert client.get('/create').status_code == 403
+
+
+def test_login_required_admin(auth, client):
+    auth.register(
+        {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
+    )
+    auth.login(username='admin', password='admin')
+    assert client.get('/create').status_code == 200
+
+
+def test_logout(auth, client):
+    auth.register(DEFAULT_USER)
+    auth.login()
+
+    with client:
+        auth.logout()
+        assert 'user_id' not in session

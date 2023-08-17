@@ -47,7 +47,6 @@ def create():
             flash('Title is required')
             return render_template('gallery/create.html')
 
-
         if check_image(image):
             db.run_query(
                 SQL('''
