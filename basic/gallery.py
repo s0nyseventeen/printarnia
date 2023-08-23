@@ -48,7 +48,7 @@ def create():
             return render_template('gallery/create.html')
 
 
-        if __check_image(image):
+        if check_image(image):
             db.run_query(
                 SQL('''
                     INSERT INTO {table} (title, created, description)
@@ -91,7 +91,7 @@ def update(id):
         description = request.form['description']
         image = request.files.get('image')
 
-        if __check_image(image):
+        if check_image(image):
             db.run_query(
                 SQL('''
                     UPDATE {table} SET title = {title}, description = {description}
@@ -166,10 +166,10 @@ def get_work(id):
     )
     work = db.cur.fetchone()
 
-    if work is None:
+    if not work:
         abort(404, f'Work id {id} does not exist')
     return work
 
 
-def __check_image(image) -> bool:
+def check_image(image) -> bool:
     return image.filename == ''

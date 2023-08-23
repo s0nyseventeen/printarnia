@@ -38,7 +38,7 @@ def register():
         elif not email:
             error = 'Email is required'
 
-        if error is None:
+        if not error:
             try:
                 db.run_query(
                     SQL("""
@@ -73,13 +73,13 @@ def login():
         )
         user = db.cur.fetchone()
 
-        if user is None:
+        if not user:
             error = 'Incorrect username'
 
         elif not check_password_hash(user[3], password):
             error = 'Incorrect password'
 
-        if error is None:
+        if not error:
             session.clear()
             session['user_id'] = user[0]
             current_app.logger.info('User %s is logged in' % username)
@@ -93,7 +93,7 @@ def load_logged_in_user():
     user_id = session.get('user_id')
     db = get_db()
 
-    if user_id is None:
+    if not user_id:
         g.user = None
     else:
         db.cur.execute(
