@@ -45,6 +45,8 @@ def create():
 
         if not title:
             flash('Title is required')
+            return render_template('gallery/create.html')
+
 
         if __check_image(image):
             db.run_query(
