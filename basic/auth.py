@@ -89,7 +89,7 @@ def login_required(view):
 
     @wraps(view)
     def wrapper(**kwargs):
-        if g.user is None or g.user['username'] != 'admin':
+        if not g.get('user') or g.user[1] != 'admin':
             return abort(403)
         return view(**kwargs)
     return wrapper

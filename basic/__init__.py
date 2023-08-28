@@ -44,9 +44,6 @@ def create_app(test_config=None):
     if test_config is not None:
         app.config.from_mapping(test_config)
 
-    from .db import init_app
-    init_app(app)
-
     from .auth import bp
     app.register_blueprint(bp)
 
