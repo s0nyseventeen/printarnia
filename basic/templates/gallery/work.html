@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-	<h1>{% block title %}{{ work['title'] }}{% endblock %}</h1>
+	<h1>{% block title %}{{ work[1] }}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -9,15 +9,15 @@
 		<header>
 			<div>
 				<div class="about">
-					<p>{{ work.description }}</p>
-					<p>created: {{ work.created }}</p>
-					{% if work.image %}
-						<img class="work-img" src="{{ url_for('static', filename='images/' + work.image) }}">
+					<p>{{ work[3] }}</p>
+					<p>created: {{ work[2] }}</p>
+					{% if work[4] %}
+						<img class="work-img" src="{{ url_for('static', filename='images/' + work[4]) }}">
 					{% else %}
 						<p>Not Found</p>
 					{% endif %}
-					{% if g.user['username'] == 'admin' %}
-						<form action="{{ url_for('gallery.update', id=work.id) }}">
+					{% if g.user[1] == 'admin' %}
+						<form action="{{ url_for('gallery.update', id=work[0]) }}">
 							<input class="primary" type="submit" value="Edit">
 						</form>
 					{% endif %}

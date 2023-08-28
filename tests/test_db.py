@@ -1,37 +1,30 @@
-import os
-from sqlite3 import ProgrammingError
-from unittest import main
-from unittest import TestCase
-from unittest.mock import patch
+import pytest
+from psycopg2 import InterfaceError
 
-from . import app_factory
+from .conftest import INSERT_INTO_WORK
 from basic.db import get_db
 
 
-class TestDb(TestCase):
-    def setUp(self):
-        self.app, self.db_fake, self.db_path = app_factory()
-        self.runner = self.app.test_cli_runner()
-
-    def tearDown(self):
-        os.close(self.db_fake)
-        os.unlink(self.db_path)
-
-    def test_db_same_conn(self):
-        with self.app.app_context():
-            db = get_db()
-            self.assertEqual(db, get_db())
-
-        with self.assertRaises(ProgrammingError) as e:
-            db.execute('SELECT 1')
-        self.assertIn('closed database', str(e.exception))
-
-    @patch('basic.db.init_db')
-    def test_init_db_cmd(self, mock_init_db):
-        mock_init_db.return_value = lambda: None
-        res = self.runner.invoke(args=['init-db'])
-        self.assertIn('Initialized', res.output)
+def test_db_same_conn(app):
+    with app.app_context():
+        db = get_db()
+        assert db is get_db()
 
 
-if __name__ == '__main__':
-    main()
+def test_get_close_db_cursor(app):
+    with app.app_context():
+        db = get_db()
+        db.cur.execute('SELECT 1')
+        db.cur.close()
+
+        with pytest.raises(InterfaceError) as e:
+            db.cur.execute('SELECT 1')
+            assert 'cursor already closed' in str(e.value)
+
+
+def test_run_query(app):
+    with app.app_context():
+        db = get_db()
+        db.run_query(INSERT_INTO_WORK)
+        db.cur.execute('SELECT * FROM work')
+    assert db.cur.fetchall() is not None

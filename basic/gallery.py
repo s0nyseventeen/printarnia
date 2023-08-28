@@ -1,7 +1,6 @@
 import datetime
 import os
 from pathlib import Path
-from typing import Any
 
 from flask import Blueprint
 from flask import current_app
@@ -10,6 +9,9 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
+from psycopg2.sql import Identifier
+from psycopg2.sql import Literal
+from psycopg2.sql import SQL
 from werkzeug.exceptions import abort
 
 from .auth import login_required
@@ -20,7 +22,13 @@ bp = Blueprint('gallery', __name__)
 
 @bp.route('/')
 def index():
-    works = get_db().execute('SELECT * FROM work ORDER BY created DESC;').fetchall()
+    db = get_db()
+    db.cur.execute(
+        SQL('SELECT * FROM {table} ORDER BY created DESC;').format(
+            table=Identifier('work')
+        )
+    )
+    works = db.cur.fetchall()
     current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
@@ -29,6 +37,7 @@ def index():
 @login_required
 def create():
     if request.method == 'POST':
+        db = get_db()
         title = request.form.get('title')
         created = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         description = request.form.get('description')
@@ -36,20 +45,34 @@ def create():
 
         if not title:
             flash('Title is required')
+            return render_template('gallery/create.html')
 
-        if __check_image(image):
-            __insert(
-                'INSERT INTO work (title, created, description) '
-                'VALUES (?, ?, ?)',
-                (title, created, description)
+        if check_image(image):
+            db.run_query(
+                SQL('''
+                    INSERT INTO {table} (title, created, description)
+                    VALUES ({title}, {created}, {description});'''
+                ).format(
+                    table=Identifier('work'),
+                    title=Literal(title),
+                    created=Literal(created),
+                    description=Literal(description)
+                )
             )
             current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
 
-        __insert(
-            'INSERT INTO work (title, created, description, image) '
-            'VALUES (?, ?, ?, ?)',
-            (title, created, description, image.filename)
+        db.run_query(
+            SQL('''
+                INSERT INTO {table} (title, created, description, image)
+                VALUES ({title}, {created}, {description}, {image});'''
+            ).format(
+                table=Identifier('work'),
+                title=Literal(title),
+                created=Literal(created),
+                description=Literal(description),
+                image=Literal(image.filename)
+            )
         )
         image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
         return redirect(url_for('gallery.index'))
@@ -60,21 +83,41 @@ def create():
 @login_required
 def update(id):
     work = get_work(id)
+    db = get_db()
+
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         image = request.files.get('image')
 
-        if __check_image(image):
-            __insert(
-                'UPDATE work SET title = ?, description = ? WHERE id = ?',
-                (title, description, id)
+        if check_image(image):
+            db.run_query(
+                SQL('''
+                    UPDATE {table} SET title = {title}, description = {description}
+                    WHERE id = {id};'''
+                ).format(
+                    table=Identifier('work'),
+                    title=Literal(title),
+                    description=Literal(description),
+                    id=Literal(id)
+                )
             )
             current_app.logger.info('Work %s was updated' % title)
             return redirect(url_for('gallery.index'))
-        __insert(
-            'UPDATE work SET title = ?, description = ?, image = ? WHERE id = ?',
-            (title, description, image.filename, id)
+
+        db.run_query(
+            SQL('''
+                UPDATE {table} SET title = {title},
+                    description = {description},
+                    image = {image}
+                WHERE id = {id};'''
+            ).format(
+                table=Identifier('work'),
+                title=Literal(title),
+                description=Literal(description),
+                image=Literal(image.filename),
+                id=Literal(id)
+            )
         )
         image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
         return redirect(url_for('gallery.index'))
@@ -91,9 +134,12 @@ def detail(id):
 def delete(id):
     work = get_work(id)
     db = get_db()
-    db.execute('DELETE FROM work WHERE id = ?', (id,))
-    db.commit()
-    current_app.logger.info('Work %s was deleted', work['title'])
+    db.run_query(
+        SQL('DELETE FROM {table} WHERE id = {id};').format(
+            table=Identifier('work'), id=Literal(id)
+        )
+    )
+    current_app.logger.info('Work %s was deleted', work[1])
     return redirect(url_for('gallery.index'))
 
 
@@ -101,27 +147,28 @@ def delete(id):
 def remove_photo(id):
     work = get_work(id)
     db = get_db()
-    db.execute("UPDATE work SET image = NULL WHERE id = ?;", (id,))
-    db.commit()
-    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / work['image'])
+    db.run_query(
+        SQL('UPDATE {table} SET image = NULL WHERE id = {id};').format(
+            table=Identifier('work'), id=Literal(id)
+        )
+    )
+    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / work[4])
     return redirect(url_for('gallery.index'))
 
 
 def get_work(id):
-    work = get_db().execute(
-        'SELECT * FROM work WHERE id = ?;', (id,)
-    ).fetchone()
+    db = get_db()
+    db.cur.execute(
+        SQL('SELECT * FROM {table} WHERE id = {id};').format(
+            table=Identifier('work'), id=Literal(id)
+        )
+    )
+    work = db.cur.fetchone()
 
-    if work is None:
+    if not work:
         abort(404, f'Work id {id} does not exist')
     return work
 
 
-def __check_image(image) -> bool:
+def check_image(image) -> bool:
     return image.filename == ''
-
-
-def __insert(query: str, args: tuple[Any, ...]):
-    db = get_db()
-    db.execute(query, args)
-    db.commit()

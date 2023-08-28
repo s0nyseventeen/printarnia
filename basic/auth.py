@@ -9,6 +9,10 @@ from flask import render_template
 from flask import request
 from flask import session
 from flask import url_for
+from psycopg2.errors import UniqueViolation
+from psycopg2.sql import Identifier
+from psycopg2.sql import Literal
+from psycopg2.sql import SQL
 from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
@@ -34,16 +38,22 @@ def register():
         elif not email:
             error = 'Email is required'
 
-        if error is None:
+        if not error:
             try:
-                db.execute(
-                    'INSERT INTO user (username, password, email) VALUES (?, ?, ?)',
-                    (username, generate_password_hash(password), email)
+                db.run_query(
+                    SQL("""
+                        INSERT INTO {table} (username, password, email)
+                        VALUES ({username}, {password}, {email});"""
+                    ).format(
+                        table=Identifier('users'),
+                        username=Literal(username),
+                        password=Literal(generate_password_hash(password)),
+                        email=Literal(email)
+                    )
                 )
-                db.commit()
                 current_app.logger.info('User %s is registered' % username)
                 return redirect(url_for('auth.login'))
-            except db.IntegrityError:
+            except UniqueViolation:
                 error = f'User {username} is already registered'
         flash(error)
     return render_template('auth/register.html')
@@ -55,18 +65,23 @@ def login():
         username = request.form['username']
         password = request.form['password']
         error = None
-        user = get_db().execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        db = get_db()
+        db.cur.execute(
+            SQL("SELECT * FROM {table} WHERE username = {username};").format(
+                table=Identifier('users'), username=Literal(username)
+            )
+        )
+        user = db.cur.fetchone()
 
-        if user is None:
+        if not user:
             error = 'Incorrect username'
-        elif not check_password_hash(user['password'], password):
+
+        elif not check_password_hash(user[3], password):
             error = 'Incorrect password'
 
-        if error is None:
+        if not error:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user[0]
             current_app.logger.info('User %s is logged in' % username)
             return redirect(url_for('gallery.index'))
         flash(error)
@@ -76,20 +91,24 @@ def login():
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
+    db = get_db()
 
-    if user_id is None:
+    if not user_id:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        db.cur.execute(
+            SQL('SELECT * FROM {table} WHERE id = {user_id};').format(
+                table=Identifier('users'), user_id=Literal(user_id)
+            )
+        )
+        g.user = db.cur.fetchone()
 
 
 def login_required(view):
 
     @wraps(view)
     def wrapper(**kwargs):
-        if g.user is None or g.user['username'] != 'admin':
+        if not g.get('user') or g.user[1] != 'admin':
             return abort(403)
         return view(**kwargs)
     return wrapper
