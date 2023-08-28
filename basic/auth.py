@@ -36,11 +36,17 @@ def register():
 
         if error is None:
             try:
-                db.execute(
-                    'INSERT INTO user (username, password, email) VALUES (?, ?, ?)',
-                    (username, generate_password_hash(password), email)
+                db.run_query(
+                    SQL("""
+                        INSERT INTO {table} (username, password, email)
+                        VALUES ({username}, {password}, {email});"""
+                    ).format(
+                        table=Identifier('users'),
+                        username=Literal(username),
+                        password=Literal(generate_password_hash(password)),
+                        email=Literal(email)
+                    )
                 )
-                db.commit()
                 current_app.logger.info('User %s is registered' % username)
                 return redirect(url_for('auth.login'))
             except db.IntegrityError:

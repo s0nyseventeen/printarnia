@@ -4,7 +4,7 @@ from psycopg2 import connect
 
 class Db:
     def __init__(self, conn=None):
-        if conn is None:
+        if not conn:
             self.__conn = connect(
                 database='sheikhs',
                 host='localhost',
@@ -15,6 +15,10 @@ class Db:
         else:
             self.__conn = conn
         self.cur = self.__conn.cursor()
+
+    def run_query(self, query):
+        self.cur.execute(query)
+        self.__conn.commit()
 
 
 def get_db():
