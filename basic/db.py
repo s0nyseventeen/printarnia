@@ -1,9 +1,24 @@
+from pathlib import Path
+from json import load
+
+from flask import current_app
 from flask import g
 from psycopg2 import connect
 
+with open(Path() / 'instance/test_config.json') as f:
+    __DATA = load(f)
+
+__CONN = connect(
+    database=__DATA['dbname'],
+    host=__DATA['host'],
+    user=__DATA['user'],
+    password=__DATA['password'],
+    port=__DATA['port']
+)
+
 
 class Db:
-    def __init__(self, conn=None):
+    def __init__(self, conn):
         if not conn:
             self.__conn = connect(
                 database='sheikhs',
@@ -22,6 +37,7 @@ class Db:
 
 
 def get_db():
+    conn = __CONN if current_app.config['TESTING'] else None
     if 'db' not in g:
-        g.db = Db()
+        g.db = Db(conn)
     return g.db

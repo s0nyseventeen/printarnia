@@ -11,7 +11,7 @@ pipeline{
                 stage('Test'){
                         steps{
                                 sh 'python3 -mpip install -r requirements.txt'
-                                sh 'python3 -munittest tests/test_* -v'
+                                sh 'pytest tests -v'
                         }
                 }
                 stage('Build'){
