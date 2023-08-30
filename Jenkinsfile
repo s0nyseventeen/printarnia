@@ -1,5 +1,5 @@
 pipeline{
-        agent{ label 'builtin' }
+        agent none
         environment{
             AWS_ACCOUNT_ID='120691575341'
             AWS_DEFAULT_REGION='us-east-2'
@@ -9,17 +9,20 @@ pipeline{
         }
         stages{
                 stage('Test'){
+                        agent{ label 'docker-cloud-agent'}
                         steps{
                                 sh 'python3 -mpip install -r requirements.txt'
-                                sh 'pytest tests -v'
+                                sh 'python3 -m pytest tests -v'
                         }
                 }
                 stage('Build'){
+                        agent{ label 'builtin'}
                         steps{
                                 sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
                         }
                 }
                 stage('Deliver'){
+                        agent{ label 'builtin'}
                         steps{
                             script{
                                 sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
