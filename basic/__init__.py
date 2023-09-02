@@ -1,3 +1,4 @@
+import json
 from logging.config import dictConfig
 
 from flask import Flask
@@ -39,10 +40,14 @@ dictConfig({
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_pyfile('config.cfg')
 
     if test_config:
         app.config.from_mapping(test_config)
+    else:
+        app.config.from_file('config.json', load=json.load)
+
+    from .db import init_app
+    init_app(app)
 
     from .auth import bp
     app.register_blueprint(bp)
