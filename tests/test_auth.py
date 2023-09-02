@@ -47,10 +47,6 @@ def test_register_exception_uniqueness(app, auth):
         resp = auth.register(DEFAULT_USER)
     assert b'User test is already registered' in resp.data
 
-    with app.app_context():
-        db = get_db()
-        db._Db__conn.rollback()
-
 
 def test_login_get_request(client):
     assert b'Log In' in client.get('/auth/login').data
