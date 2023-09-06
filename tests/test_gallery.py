@@ -50,7 +50,7 @@ def test_remove_photo_image_column_none(app, client):
         f.write(b'0xbb')
         client.post('/1/remove_photo')
         db.cur.execute('SELECT * FROM work;')
-    assert db.cur.fetchone()[4] is None
+        assert db.cur.fetchone()[4] is None
 
 
 def test_remove_photo_remove_file(app, client):
@@ -87,7 +87,7 @@ def test_delete_work(app, auth, client):
         client.post('/1/delete')
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone() is None
+        assert db.cur.fetchone() is None
 
 
 def test_delete_redirect(app, auth, client):
@@ -139,7 +139,7 @@ def test_update_title(app, auth, client):
 
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone()[1] == 'Updated'
+        assert db.cur.fetchone()[1] == 'Updated'
 
 
 def test_update_title_redirect(app, auth, client):
@@ -182,7 +182,7 @@ def test_update_description(app, auth, client):
 
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone()[3] == 'Updated'
+        assert db.cur.fetchone()[3] == 'Updated'
 
 
 def test_update_description_redirect(app, auth, client):
@@ -225,7 +225,7 @@ def test_update_image_dbrecord(app, auth, client):
 
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone()[4] == 'updated.jpg'
+        assert db.cur.fetchone()[4] == 'updated.jpg'
 
 
 def test_update_image_static_file(app, auth, client):
@@ -313,7 +313,7 @@ def test_create_with_image_dbrecord(app, auth, client):
 
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone()[4] == 'someimage.jpg'
+        assert db.cur.fetchone()[4] == 'someimage.jpg'
 
 
 def test_create_with_image_static_file(app, auth, client):
@@ -369,7 +369,7 @@ def test_create_without_image_db(app, auth, client):
         )
         db = get_db()
         db.cur.execute('SELECT * FROM work WHERE id = 1')
-    assert db.cur.fetchone()[4] is None
+        assert db.cur.fetchone()[4] is None
 
 
 def test_create_without_image_redirect(app, auth, client):

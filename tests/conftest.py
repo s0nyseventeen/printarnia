@@ -15,9 +15,14 @@ DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
 @fixture
 def app():
-    app = create_app({'TESTING': True})
+    app = create_app({
+        'TESTING': True,
+        'UPLOAD_FOLDER': 'basic/static/images',
+        'SECRET_KEY': 'dev',
+        'DB': 'host=18.191.236.117 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
+    })
     with (
-        open(Path().resolve() / 'tests/queries.sql') as f,
+        open(Path().resolve() / 'basic/schema.sql') as f,
         app.app_context()
     ):
         db = get_db()
@@ -26,11 +31,14 @@ def app():
     yield app
 
     with app.app_context():
-        db = get_db()
-        for query in 'DROP TABLE users;', 'DROP TABLE work;':
-            db.run_query(query)
+        drop_table(get_db())
 
     __remove_image(app)
+
+
+def drop_table(db):
+    for query in 'DROP TABLE users;', 'DROP TABLE work;':
+        db.run_query(query)
 
 
 def __remove_image(app):

@@ -1,43 +1,30 @@
-from pathlib import Path
-from json import load
-
 from flask import current_app
 from flask import g
 from psycopg2 import connect
 
-with open(Path() / 'instance/test_config.json') as f:
-    __DATA = load(f)
 
-__CONN = connect(
-    database=__DATA['dbname'],
-    host=__DATA['host'],
-    user=__DATA['user'],
-    password=__DATA['password'],
-    port=__DATA['port']
-)
+def init_app(app):
+    app.teardown_appcontext(close_db)
+
+
+def close_db(e=None):
+    db = g.pop('db', None)
+    if db is not None:
+        db.cur.close()
+        db.conn.close()
 
 
 class Db:
     def __init__(self, conn):
-        if not conn:
-            self.__conn = connect(
-                database='sheikhs',
-                host='localhost',
-                user='postgres',
-                password='5247942st',
-                port='5432'
-            )
-        else:
-            self.__conn = conn
-        self.cur = self.__conn.cursor()
+        self.conn = connect(conn)
+        self.cur = self.conn.cursor()
 
     def run_query(self, query):
         self.cur.execute(query)
-        self.__conn.commit()
+        self.conn.commit()
 
 
 def get_db():
-    conn = __CONN if current_app.config['TESTING'] else None
     if 'db' not in g:
-        g.db = Db(conn)
+        g.db = Db(current_app.config['DB'])
     return g.db

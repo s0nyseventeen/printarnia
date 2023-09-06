@@ -8,8 +8,8 @@ pipeline{
             REPO_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         }
         stages{
-                stage('Test'){
-                        agent{ label 'docker-cloud-agent'}
+                stage('Tests'){
+                        agent{ label 'docker-cloud'}
                         steps{
                                 sh 'python3 -mpip install -r requirements.txt'
                                 sh 'python3 -m pytest tests -v'
