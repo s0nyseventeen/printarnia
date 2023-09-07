@@ -19,7 +19,7 @@ def app():
         'TESTING': True,
         'UPLOAD_FOLDER': 'basic/static/images',
         'SECRET_KEY': 'dev',
-        'DB': 'host=18.191.236.117 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
+        'DB': 'host=3.145.75.140 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
     })
     with (
         open(Path().resolve() / 'basic/schema.sql') as f,
