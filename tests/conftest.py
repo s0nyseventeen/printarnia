@@ -21,10 +21,8 @@ def app():
         'SECRET_KEY': 'dev',
         'DB': 'host=3.14.254.139 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
     })
-    with (
-        open(Path().resolve() / 'basic/schema.sql') as f,
-        app.app_context()
-    ):
+
+    with (open(Path().resolve() / 'tests/schema.sql') as f, app.app_context()):
         db = get_db()
         db.run_query(f.read())
 
