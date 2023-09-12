@@ -7,7 +7,7 @@ dependencies = [
 
 [build-system]
 requires = ['setuptools']
-build-beckend = 'setuptools.build_meta'
+build-backend = 'setuptools.build_meta'
 
 [tool.setuptools]
 packages = ['basic']
