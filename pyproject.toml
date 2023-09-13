@@ -1,13 +1,12 @@
 [project]
 name = 'basic'
 version = '1.0.0'
+description = 'The basic version of the sheikhs app'
 dependencies = [
-	'flask'
+	'flask',
+	'psycopg2-binary',
 ]
 
 [build-system]
-requires = ['setuptools']
-build-backend = 'setuptools.build_meta'
-
-[tool.setuptools]
-packages = ['basic']
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
