@@ -37,6 +37,33 @@
 			</div>
 			{% endfor %}
 			{% block content %}{% endblock %}
+			<footer class="footer background-dark light">
+				<div class="container flex flex--center flex--space-between">
+					<div class="pad-right32px">
+						<a href="/">
+							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+						</a>
+					</div>
+					<div class="socialmedia">
+						<p class="fontweight600 socialmedia--p socialmedia--p-margin">Наші соціальні мережі</p>
+						<div class="flex flex--space-between socialmedia--div">
+							<a href="https://instagram.com/sheikhs.design?igshid=MzRlODBiNWFlZA==">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='instagram.svg') }}" alt="Not Found"/>
+							</a>
+							<a href="#">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='viber.svg') }}" alt="Not Found"/>
+							</a>
+							<a href="#">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='telegram.svg') }}" alt="Not Found"/>
+							</a>
+						</div>
+					</div>
+					<div>
+						<p class="fontweight600 socialmedia--p socialmedia--p-margin">Зробити замовлення</p>
+						<p class="textaligncenter fontweight600 socialmedia--p socialmedia--number">+380501503090</p>
+					</div>
+				</div>
+			</footer>
 		</div>
        </body>
 </html>

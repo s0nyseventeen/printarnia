@@ -55,6 +55,10 @@ body{
 	background-color: #222323;
 }
 
+.light{
+	color: #f4f4f4;
+}
+
 .fontsize32px{
 	font-size: 3.2rem;
 }
@@ -63,8 +67,16 @@ body{
        font-weight: 500;
 }
 
+.fontweight600{
+	font-weight: 600;
+}
+
 .none-list-style{
 	list-style: none;
+}
+
+.textaligncenter{
+	text-align: center;
 }
 
 .pad-right32px{
@@ -108,4 +120,29 @@ body{
 .nav-link:hover,
 .nav-link:active{
        color: #939393;
+}
+
+.footer{
+	padding: 4.8rem 0;
+}
+
+.socialmedia--div{
+	padding: 0 0.8rem;
+}
+
+.socialmedia--img{
+	height: 3.2rem;
+}
+
+.socialmedia--p{
+	font-size: 2rem;
+}
+
+.socialmedia--p-margin{
+	margin-bottom: 1.2rem;
+}
+
+.socialmedia--number{
+	font-weight: 400;
+	margin-top: 2.4rem;
 }
