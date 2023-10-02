@@ -1,0 +1,14 @@
+tests
+__pycache__
+.git
+.mypy_cache
+.pytest_cache
+ve
+venv
+Jenkinsfile
+Dockerfile
+*.log
+pyproject.toml
+compose.yaml
+wsgi.py
+images

@@ -1,9 +1,11 @@
-FROM python:3
+FROM python:3-alpine
 
 WORKDIR /sheikhs
 
+COPY requirements.txt /sheikhs
+
+RUN pip install -r /sheikhs/requirements.txt
+
 COPY . /sheikhs
 
-RUN pip install -r requirements.txt
-
-CMD python -mflask --app basic run -h 0.0.0.0 -p 3000 --debug
+ENTRYPOINT python -mflask --app basic run -h 0.0.0.0 -p 3000 --debug
