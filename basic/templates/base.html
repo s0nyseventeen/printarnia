@@ -8,6 +8,27 @@
        </head>
        <body>
 		<div class="main flex flex--column">
+			<header class="header background-dark">
+				<div class="container flex flex--center flex--space-between">
+					<div class="pad-right32px">
+						<a href="/">
+							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+						</a>
+					</div>
+					<nav>
+						<ul class="flex none-list-style nav-list">
+							{% if g.user[1] == 'admin' %}
+								<li><a class="nav-link" href="{{ url_for('gallery.create') }}">Create</a>
+								<li><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+							{% else %}
+								<li><a class="nav-link" href="/#cooldesign">ПРО ШЕЙХІВ</a></li>
+								<li><a class="nav-link" href="/#portfolio">ПРОЄКТИ</a></li>
+								<li><a class="nav-link" href="/#offer">ЦІНИ</a></li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</header>
 			{% for m in get_flashed_messages() %}
 			<div class="background-light">
 				<div class="container">
@@ -15,7 +36,7 @@
 				</div>
 			</div>
 			{% endfor %}
-		{% block content %}{% endblock %}
+			{% block content %}{% endblock %}
 		</div>
        </body>
 </html>
