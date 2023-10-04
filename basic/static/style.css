@@ -1,0 +1,58 @@
+/*
+SPACING SYSTEM (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE SYSTEM (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+*/
+
+/*
+MAIN COLOR: #232222
+2nd COLOR: #f4f4f4
+*/
+
+*{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+}
+
+html{
+	font-size: 62.5%;
+}
+
+body{
+	font-family: "Geometria", sans-serif;
+	line-height: 1;
+	font-weight: 400;
+}
+
+.main{
+	min-height: 100vh;
+}
+
+.flex{
+	display: flex;
+}
+
+.flex--column{
+	flex-direction: column;
+}
+
+.background-ligth{
+	background-color: #f4f4f4;
+}
+
+.fontsize32px{
+	font-size: 3.2rem;
+}
+
+.fontweight500{
+       font-weight: 500;
+}
+
+.flash-msg{
+       display: block;
+       padding-top: 4.8rem;
+       color: orangered;
+}
