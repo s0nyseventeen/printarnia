@@ -59,6 +59,10 @@ body{
 	color: #f4f4f4;
 }
 
+.fontsize18px{
+	font-size: 1.8rem;
+}
+
 .fontsize32px{
 	font-size: 3.2rem;
 }
@@ -87,6 +91,10 @@ body{
 	max-width: 120rem;
 	margin: 0 auto;
 	padding: 0 3.2rem;
+}
+
+.inlineblock{
+	display: inline-block;
 }
 
 .flash-msg{
@@ -120,6 +128,47 @@ body{
 .nav-link:hover,
 .nav-link:active{
        color: #939393;
+}
+
+.carousel{
+	height: 100vh;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+		url(main_image.jpg);
+	background-size: cover;
+}
+
+.carousel--inner{
+	max-width: 70%;
+}
+
+.carousel--heading-primary{
+	margin-bottom: 3.2rem;
+	letter-spacing: -0.5px;
+}
+
+.carousel--desc{
+	line-height: 1.4;
+	margin-bottom: 3.2rem;
+}
+
+.carousel--btn{
+	padding: 1.6rem 3.2rem;
+}
+
+.carousel--btn:link,
+.carousel--btn:visited{
+	font-size: 2rem;
+	font-weight: 700;
+	background-color: #f4f4f4;
+	color: #232222;
+	text-decoration: none;
+	transition: all 0.3s;
+}
+
+.carousel--btn:hover,
+.carousel--btn:active{
+	background-color: #232222;
+	color: #f4f4f4;
 }
 
 .footer{
