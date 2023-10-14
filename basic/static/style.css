@@ -51,6 +51,12 @@ body{
 	justify-content: space-around;
 }
 
+.grid{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 2.4rem;
+}
+
 .background-ligth{
 	background-color: #f4f4f4;
 }
@@ -238,6 +244,14 @@ body{
 .cooldesign-p{
 	max-width: 75%;
 	line-height: 1.2;
+}
+
+.portfolio-inner{
+	padding-bottom: 12.8rem;
+}
+
+.portfolio-img{
+	width: 100%;
 }
 
 .footer{

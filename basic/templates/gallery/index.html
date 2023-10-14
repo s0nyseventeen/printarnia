@@ -51,4 +51,17 @@
 		</div>
 	</section>
 
+	<section class="background-dark light" id="portfolio">
+		<div class="container portfolio-inner">
+			<p class="fontsize64px letterspacing1-5px qoc pad-top64px pad-btm64px">НАШЕ ПОРТФОЛІО</p>
+			<div class="grid">
+				{% for w in works %}
+				<div>
+					<img class="portfolio-img" src="{{ url_for('static', filename='images/' + w[4]) }}">
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
 {% endblock %}
