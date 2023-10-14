@@ -47,6 +47,10 @@ body{
 	justify-content: space-between;
 }
 
+.flex--space-around{
+	justify-content: space-around;
+}
+
 .background-ligth{
 	background-color: #f4f4f4;
 }
@@ -59,8 +63,16 @@ body{
 	color: #f4f4f4;
 }
 
+.qoc{
+       font-family: "Queen of Clubs", sans-serif;
+}
+
 .fontsize18px{
 	font-size: 1.8rem;
+}
+
+.fontsize24px{
+	font-size: 2.4rem;
 }
 
 .fontsize32px{
@@ -85,6 +97,14 @@ body{
 
 .pad-right32px{
 	padding-right: 3.2rem;
+}
+
+.pad-top64px{
+	padding-top: 6.4rem;
+}
+
+.pad-btm64px{
+	padding-bottom: 6.4rem;
 }
 
 .container{
@@ -169,6 +189,15 @@ body{
 .carousel--btn:active{
 	background-color: #232222;
 	color: #f4f4f4;
+}
+
+.statistics-count{
+	font-size: 9.6rem;
+	letter-spacing: 0.4rem;
+}
+
+.statistics-info{
+	font-weight: 300;
 }
 
 .footer{
