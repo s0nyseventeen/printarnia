@@ -121,6 +121,10 @@ body{
 	padding-right: 3.2rem;
 }
 
+.pad-left32px{
+	padding-left: 3.2rem;
+}
+
 .pad-top64px{
 	padding-top: 6.4rem;
 }
@@ -252,6 +256,32 @@ body{
 
 .portfolio-img{
 	width: 100%;
+}
+
+.offer-cont{
+	padding-bottom: 12.8rem;
+}
+
+.offer-flex{
+	gap: 3.2rem;
+}
+
+.offer-type{
+	padding: 3.6rem 0 0.8rem 3.2rem;
+}
+
+.offer-price{
+	letter-spacing: 2px;
+	padding-left: 3.2rem;
+}
+
+.offer-list{
+	gap: 2.4rem;
+	padding-top: 3.2rem;
+}
+
+.offer-info{
+	line-height: 1.5;
 }
 
 .footer{
