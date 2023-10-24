@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 
-{% block header %}
-	</h1>{% block title %}Add work{% endblock %}</h1>
-{% endblock %}
+{% block title %}Add work{% endblock %}
 
 {% block content %}
-	<form method="post" enctype="multipart/form-data">
-		<label for="title">Title</label>
-		<input name="title" id="title" value="{{ request.form['title'] }}" required>
-		<label for="description">Description</label>
-		<textarea name="description" id="description">
-			{{ request.form['description'] }}
-		</textarea>
-		<input name="image" type="file">
-		<input type="submit" value="Save">
-	</form>
+	<section class="auth-cont background-light dark">
+		<div class="container">
+			<div class="pad-top64px pad-btm64px">
+				<form method="post" enctype="multipart/form-data">
+					<ul class="flex flex--column auth-flex none-list-style">
+						<li class="auth-text"><label for="title">Title</label></li>
+						<li><input name="title" id="title" value="{{ request.form['title'] }}" required></li>
+						<li class="auth-text"><label for="description">Description</label></li>
+						<li>
+							<textarea class="auth-create-textarea" name="description" id="description">{{ request.form['description'] }}</textarea>
+						</li>
+						<li><input name="image" type="file"></li>
+						<li><input class="fontsize16px fontweight600 auth-btn auth-btn-primary" type="submit" value="Save"></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</section>
 {% endblock %}
