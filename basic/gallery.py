@@ -126,7 +126,7 @@ def update(id):
 
 @bp.route('/<int:id>')
 def detail(id):
-    return render_template('gallery/work.html', work=get_work(id))
+    return render_template('gallery/detail.html', work=get_work(id))
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))

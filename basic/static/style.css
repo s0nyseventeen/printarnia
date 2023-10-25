@@ -333,3 +333,16 @@ body{
 .auth-btn-primary{
 	color: #1e81fb;
 }
+
+.detail-inner{
+	padding-bottom: 12.8rem;
+}
+
+.detail-title{
+	padding-top: 12.8rem;
+	font-size: 6.4rem;
+}
+
+.detail-flex-gap{
+	gap: 4.8rem;
+}

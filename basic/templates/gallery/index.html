@@ -57,7 +57,9 @@
 			<div class="grid">
 				{% for w in works %}
 				<div>
-					<img class="portfolio-img" src="{{ url_for('static', filename='images/' + w[4]) }}">
+					<a href="{{ url_for('gallery.detail', id=w[0]) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + w[4]) }}">
+					</a>
 				</div>
 				{% endfor %}
 			</div>

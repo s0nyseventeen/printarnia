@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ work[1] }}{% endblock %}
+
+{% block content %}
+	<section class="background-light dark auth-cont">
+		<div class="container">
+			<div class="flex flex--column detail-flex-gap detail-inner">
+				<p class="detail-title letterspacing1-5px qoc">{{ work[1] }}</p>
+				{% if g.user[1] == 'admin' %}
+					<p class="fontsize24px">created: {{ work[2] }}</p>
+				{% endif %}
+				<p class="fontsize24px">{{ work[3] }}</p>
+				{% if work[4] %}
+					<img src="{{ url_for('static', filename='images/' + work[4]) }}">
+				{% else %}
+					<p>Not Found</p>
+				{% endif %}
+				{% if g.user[1] == 'admin' %}
+					<form action="{{ url_for('gallery.update', id=work[0]) }}">
+						<input class="fontsize16px fontweight600 auth-btn auth-btn-primary" type="submit" value="Edit">
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
