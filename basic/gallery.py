@@ -103,7 +103,7 @@ def update(id):
                 )
             )
             current_app.logger.info('Work %s was updated' % title)
-            return redirect(url_for('gallery.index'))
+            return redirect(url_for('gallery.detail', id=id))
 
         db.run_query(
             SQL('''
@@ -120,7 +120,7 @@ def update(id):
             )
         )
         image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
-        return redirect(url_for('gallery.index'))
+        return redirect(url_for('gallery.detail', id=id))
     return render_template('gallery/update.html', work=work)
 
 

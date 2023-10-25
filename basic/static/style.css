@@ -346,3 +346,7 @@ body{
 .detail-flex-gap{
 	gap: 4.8rem;
 }
+
+.auth-btn-danger{
+	color: red;
+}
