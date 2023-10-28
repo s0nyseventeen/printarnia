@@ -13,20 +13,6 @@ def test_register_status_code(app, client):
     assert client.get('/auth/login').status_code == 200
 
 
-def test_register_redirect(auth):
-    assert auth.register(DEFAULT_USER).headers['Location'] == '/auth/login'
-
-
-def test_register_user(auth, app):
-    auth.register(DEFAULT_USER)
-    with app.app_context():
-        db = get_db()
-        db.cur.execute(
-            "SELECT * FROM users WHERE username = 'test';"
-        )
-        assert db.cur.fetchone() is not None
-
-
 def test_register_validate_username_missed(auth):
     resp = auth.register({'username': '', 'password': 'a', 'email': 'a@mail.ua'})
     assert b'Username is required' in resp.data
@@ -40,6 +26,20 @@ def test_register_validate_password_missed(auth):
 def test_register_validate_email_missed(auth):
     resp = auth.register({'username': 'a', 'password': 'a', 'email': ''})
     assert b'Email is required' in resp.data
+
+
+def test_register_user(auth, app):
+    auth.register(DEFAULT_USER)
+    with app.app_context():
+        db = get_db()
+        db.cur.execute(
+            "SELECT * FROM users WHERE username = 'test';"
+        )
+        assert db.cur.fetchone() is not None
+
+
+def test_register_redirect(auth):
+    assert auth.register(DEFAULT_USER).headers['Location'] == '/auth/login'
 
 
 def test_register_exception_uniqueness(app, auth):
@@ -56,11 +56,6 @@ def test_login_status_code(client):
     assert client.get('/auth/login').status_code == 200
 
 
-def test_login_redirect(auth):
-    auth.register(DEFAULT_USER)
-    assert auth.login().headers['Location'] == '/'
-
-
 def test_login_validate_username(auth):
     auth.register(DEFAULT_USER)
     assert b'Incorrect username' in auth.login(username='wrong_username').data
@@ -71,9 +66,9 @@ def test_login_validate_password(auth):
     assert b'Incorrect password' in auth.login(password='wrong_password').data
 
 
-def test_login_noerror_redirect(auth):
+def test_login_redirect(auth):
     auth.register(DEFAULT_USER)
-    assert '/' in auth.login().headers['Location']
+    assert auth.login().headers['Location'] == '/'
 
 
 def test_load_logged_in_user_not_loggedin(app, client):

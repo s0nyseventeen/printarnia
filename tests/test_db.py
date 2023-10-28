@@ -9,7 +9,7 @@ from canoe.db import get_db
 from canoe.db import init_app
 
 
-def test_init_app_close_db(app):
+def test_init_app(app):
     init_app(app)
     assert 'close_db' in app.teardown_appcontext_funcs[0].__name__
 
@@ -30,19 +30,19 @@ def test_close_db(app):
     assert 'cursor already closed' in str(e.value)
 
 
-def test_db_conn(app):
+def test_db_init_conn(app):
     with app.app_context():
         db = get_db()
     assert isinstance(db.conn, psycopg2.extensions.connection)
 
 
-def test_db_cur(app):
+def test_db_init_cur(app):
     with app.app_context():
         db = get_db()
     assert isinstance(db.cur, psycopg2.extensions.cursor)
 
 
-def test_run_query(app):
+def test_db_run_query(app):
     with app.app_context():
         db = get_db()
         db.run_query(INSERT_INTO_WORK)
