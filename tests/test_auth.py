@@ -2,7 +2,7 @@ from flask import g
 from flask import session
 
 from .conftest import DEFAULT_USER
-from basic.db import get_db
+from canoe.db import get_db
 
 
 def test_register_get_request(app, client):

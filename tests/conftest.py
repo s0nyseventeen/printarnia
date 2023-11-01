@@ -3,8 +3,8 @@ from pathlib import Path
 
 from pytest import fixture
 
-from basic import create_app
-from basic.db import get_db
+from canoe import create_app
+from canoe.db import get_db
 
 INSERT_INTO_WORK = """
     INSERT INTO work (title, created, description, image) VALUES
@@ -17,7 +17,7 @@ DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 def app():
     app = create_app({
         'TESTING': True,
-        'UPLOAD_FOLDER': 'basic/static/images',
+        'UPLOAD_FOLDER': 'canoe/static/images',
         'SECRET_KEY': 'dev',
         'DB': 'host=3.14.254.139 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
     })

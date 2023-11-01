@@ -4,9 +4,9 @@ import psycopg2
 from flask import g
 
 from .conftest import INSERT_INTO_WORK
-from basic.db import close_db
-from basic.db import get_db
-from basic.db import init_app
+from canoe.db import close_db
+from canoe.db import get_db
+from canoe.db import init_app
 
 
 def test_init_app_close_db(app):

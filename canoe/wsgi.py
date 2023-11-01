@@ -1,4 +1,4 @@
-from basic import create_app
+from canoe import create_app
 
 
 if __name__ == '__main__':

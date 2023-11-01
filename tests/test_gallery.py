@@ -6,9 +6,9 @@ from pytest import mark
 
 from .conftest import INSERT_INTO_WORK
 from .conftest import DEFAULT_USER
-from basic.db import get_db
-from basic.gallery import check_image
-from basic.gallery import get_work
+from canoe.db import get_db
+from canoe.gallery import check_image
+from canoe.gallery import get_work
 
 
 class Image:
