@@ -1,5 +1,5 @@
 {
-	"UPLOAD_FOLDER": "/home/ubuntu/ve/lib/python3.10/site-packages/basic/static/images",
+	"UPLOAD_FOLDER": "/home/ubuntu/ve/lib/python3.10/site-packages/canoe/static/images",
 	"SECRET_KEY": "dev",
 	"DB": "host=3.14.254.139 port=5432 user=postgres password=5247942st dbname=sheikhs"
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+       <head>
+		<meta charset="UTF-8"/>
+		<title>{% block title %}{% endblock %} - sheikhs</title>
+		<link href="https://fonts.cdnfonts.com/css/geometria" rel="stylesheet"/>
+		<link href="https://fonts.cdnfonts.com/css/queen-of-clubs" rel="stylesheet"/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+       </head>
+       <body>
+		<div class="main flex flex--column">
+			<header class="header background-dark">
+				<div class="container flex flex--center flex--space-between">
+					<div class="pad-right32px">
+						<a href="/">
+							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+						</a>
+					</div>
+					<nav>
+						<ul class="flex none-list-style nav-list">
+							{% if g.user[1] == 'admin' %}
+								<li><a class="nav-link" href="{{ url_for('gallery.create') }}">Create</a>
+								<li><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+							{% else %}
+								<li><a class="nav-link" href="/#cooldesign">ПРО ШЕЙХІВ</a></li>
+								<li><a class="nav-link" href="/#portfolio">ПРОЄКТИ</a></li>
+								<li><a class="nav-link" href="/#offer">ЦІНИ</a></li>
+							{% endif %}
+						</ul>
+					</nav>
+				</div>
+			</header>
+			{% for m in get_flashed_messages() %}
+			<div class="background-light">
+				<div class="container">
+				       <span class="fontsize32px fontweight500 flash-msg">{{ m }}</span>
+				</div>
+			</div>
+			{% endfor %}
+			{% block content %}{% endblock %}
+			<footer class="footer background-dark light">
+				<div class="container flex flex--center flex--space-between">
+					<div class="pad-right32px">
+						<a href="/">
+							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+						</a>
+					</div>
+					<div class="socialmedia">
+						<p class="fontweight600 socialmedia--p socialmedia--p-margin">Наші соціальні мережі</p>
+						<div class="flex flex--space-between socialmedia--div">
+							<a href="https://instagram.com/sheikhs.design?igshid=MzRlODBiNWFlZA==">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='instagram.svg') }}" alt="Not Found"/>
+							</a>
+							<a href="#">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='viber.svg') }}" alt="Not Found"/>
+							</a>
+							<a href="#">
+								<img class="socialmedia--img" src="{{ url_for('static', filename='telegram.svg') }}" alt="Not Found"/>
+							</a>
+						</div>
+					</div>
+					<div>
+						<p class="fontweight600 socialmedia--p socialmedia--p-margin">Зробити замовлення</p>
+						<p class="textaligncenter fontweight600 socialmedia--p socialmedia--number">+380501503090</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+       </body>
+</html>

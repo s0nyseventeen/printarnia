@@ -29,7 +29,6 @@ def index():
         )
     )
     works = db.cur.fetchall()
-    current_app.logger.info('Works are rendered')
     return render_template('gallery/index.html', works=works)
 
 
@@ -59,7 +58,6 @@ def create():
                     description=Literal(description)
                 )
             )
-            current_app.logger.info('Work %s is added' % title)
             return redirect(url_for('gallery.index'))
 
         db.run_query(
@@ -102,8 +100,7 @@ def update(id):
                     id=Literal(id)
                 )
             )
-            current_app.logger.info('Work %s was updated' % title)
-            return redirect(url_for('gallery.index'))
+            return redirect(url_for('gallery.detail', id=id))
 
         db.run_query(
             SQL('''
@@ -120,26 +117,24 @@ def update(id):
             )
         )
         image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
-        return redirect(url_for('gallery.index'))
+        return redirect(url_for('gallery.detail', id=id))
     return render_template('gallery/update.html', work=work)
 
 
 @bp.route('/<int:id>')
 def detail(id):
-    return render_template('gallery/work.html', work=get_work(id))
+    return render_template('gallery/detail.html', work=get_work(id))
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    work = get_work(id)
     db = get_db()
     db.run_query(
         SQL('DELETE FROM {table} WHERE id = {id};').format(
             table=Identifier('work'), id=Literal(id)
         )
     )
-    current_app.logger.info('Work %s was deleted', work[1])
     return redirect(url_for('gallery.index'))
 
 

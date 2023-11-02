@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+	<section class="light flex flex--center carousel">
+		<div class="container">
+			<div class="carousel--inner">
+				<p class="fontsize32px carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
+				<p class="fontsize18px carousel--desc">Ознайомся з нашими пропозиціями та послугами, зроби свій бізнес стильним та впізнаваним. Ми гарантуємо унікальний дизайн, який сподобається вам та вашим клієнтам, у короткий термін та за приємну ціну.</p>
+				<a class="inlineblock carousel--btn" href="#offer">Переглянути пропозиції</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="background-dark light pad-top64px pad-btm64px">
+		<div class="container textaligncenter flex flex--center flex--space-around">
+			<div>
+				<p class="statistics-count qoc">0256</p>
+				<p class="fontsize24px statistics-info">Виконаних замовлень</p>
+			</div>
+			<div>
+				<p class="statistics-count qoc">0098</p>
+				<p class="fontsize24px statistics-info">Унікальних дизайнів</p>
+			</div>
+			<div>
+				<p class="statistics-count qoc">0065</p>
+				<p class="fontsize24px statistics-info">Задоволених клієнтів</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="background-light dark" id="cooldesign">
+		<div class="container">
+			<p class="fontsize64px letterspacing1-5px cooldesign-title qoc">РОБИМО КРУТИЙ ДИЗАЙН ДЛЯ НАШИХ КЛІЄНТІВ</p>
+			<p class="fontsize18px cooldesign-info">Ми - команда Sheikhs, наша робота - це про ваш бізнес та його обличчя. Щодня ми приймаємо десятки замовлень від клієнтів, консультуємо їх та допомагаємо у розвитку їхніх справ. Щодня ми робимо логотипи, вивсіки, поліграфічні матеріали, навігацію, візуалізації та концепти для ваших інстаграмів, торгових точок, офісів та робочих місць.</p>
+			<div class="flex flex--center cooldesign-inner">
+				<div>
+					<img class="cooldesign-img" src="{{ url_for('static', filename='01.png') }}" alt="Not Found">
+					<p class="fontsize16px inlineblock cooldesign-p">Створимо унікальну айдентику, та увесь бренд-пакет для вашого бізнесу</p>
+				</div>
+				<div>
+					<img class="cooldesign-img" src="{{ url_for('static', filename='02.png') }}" alt="Not Found">
+					<p class="fontsize16px inlineblock cooldesign-p">Дослухуховуємось до усіх побажань та вибудовуємо роботу у вашому режимі</p>
+				</div>
+				<div>
+					<img class="cooldesign-img" src="{{ url_for('static', filename='03.png') }}" alt="Not Found">
+					<p class="fontsize16px inlineblock cooldesign-p">Візуалізуємо усю роботу, виконуємо замовлення по поліграфії та віддаємо готовий продукт</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="background-dark light" id="portfolio">
+		<div class="container portfolio-inner">
+			<p class="fontsize64px letterspacing1-5px qoc pad-top64px pad-btm64px">НАШЕ ПОРТФОЛІО</p>
+			<div class="grid">
+				<div>
+					<a href="{{ url_for('gallery.detail', id=24) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '1_Leggitop_title_image.svg') }}">
+					</a>
+				</div>
+				<div>
+					<a href="{{ url_for('gallery.detail', id=25) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '2_Pidshypnyk_group_title_image.svg') }}">
+					</a>
+				</div>
+				<div>
+					<a href="{{ url_for('gallery.detail', id=26) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '3_d0cplay_title_image.svg') }}">
+					</a>
+				</div>
+				<div>
+					<a href="{{ url_for('gallery.detail', id=27) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '4_MSI_title_image.svg') }}">
+					</a>
+				</div>
+				<div>
+					<a href="{{ url_for('gallery.detail', id=28) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '5_Bearing_store_title_image.svg') }}">
+					</a>
+				</div>
+				<div>
+					<a href="{{ url_for('gallery.detail', id=29) }}">
+						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '6_Purple_lama_title_image.svg') }}">
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="background-light" id="offer">
+		<div class="offer-cont container">
+			<p class="fontsize64px letterspacing1-5px dark qoc pad-top64px pad-btm64px">ЩО МИ ПРОПОНУЄМО?</p>
+			<div class="light flex flex--center offer-flex">
+				<div class="background-dark">
+					<p class="fontsize32px letterspacing1-5px offer-type qoc">BASIC ПАКЕТ</p>
+					<p class="fontsize64px offer-price qoc">2800 ₴</p>
+					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
+						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
+						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
+						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+					</ul>
+				</div>
+				<div class="background-dark">
+					<p class="fontsize32px letterspacing1-5px offer-type qoc">СТАНДАРТНИЙ ПАКЕТ</p>
+					<p class="fontsize64px offer-price qoc">3800 ₴</p>
+					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
+						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
+						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
+						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+					</ul>
+				</div>
+				<div class="background-dark">
+					<p class="fontsize32px letterspacing1-5px offer-type qoc">ECONOM ПАКЕТ</p>
+					<p class="fontsize64px offer-price qoc">1800 ₴</p>
+					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
+						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
+						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
+						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
+						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
