@@ -1,7 +1,6 @@
 from functools import wraps
 
 from flask import Blueprint
-from flask import current_app
 from flask import flash
 from flask import g
 from flask import redirect
@@ -51,7 +50,6 @@ def register():
                         email=Literal(email)
                     )
                 )
-                current_app.logger.info('User %s is registered' % username)
                 return redirect(url_for('auth.login'))
             except UniqueViolation:
                 error = f'User {username} is already registered'
@@ -82,7 +80,6 @@ def login():
         if not error:
             session.clear()
             session['user_id'] = user[0]
-            current_app.logger.info('User %s is logged in' % username)
             return redirect(url_for('gallery.index'))
         flash(error)
     return render_template('auth/login.html')
@@ -117,5 +114,4 @@ def login_required(view):
 @bp.route('/logout')
 def logout():
     session.clear()
-    current_app.logger.info('User is logged out')
     return redirect(url_for('gallery.index'))
