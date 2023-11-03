@@ -51,6 +51,10 @@ body{
 	justify-content: space-around;
 }
 
+.flex--view-priority{
+	flex: 1;
+}
+
 .grid{
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -147,6 +151,8 @@ body{
        display: block;
        padding-top: 4.8rem;
        color: orangered;
+       font-weight: 500;
+       font-size: 3.2rem;
 }
 
 .logo-img{
@@ -159,6 +165,7 @@ body{
 
 .nav-list{
 	gap: 12.8rem;
+	list-style: none;
 }
 
 .nav-link:link,
@@ -254,6 +261,14 @@ body{
 	padding-bottom: 12.8rem;
 }
 
+.portfolio--div-img{
+	transition: all 0.4s;
+}
+
+.portfolio--div-img:hover{
+	transform: translateY(-1.2rem);
+}
+
 .portfolio-img{
 	width: 100%;
 }
@@ -307,10 +322,6 @@ body{
 .socialmedia--number{
 	font-weight: 400;
 	margin-top: 2.4rem;
-}
-
-.auth-cont{
-	flex: 1;
 }
 
 .auth-flex{
