@@ -254,6 +254,14 @@ body{
 	padding-bottom: 12.8rem;
 }
 
+.portfolio--div-img{
+	transition: all 0.4s;
+}
+
+.portfolio--div-img:hover{
+	transform: translateY(-1.2rem);
+}
+
 .portfolio-img{
 	width: 100%;
 }
