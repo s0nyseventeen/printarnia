@@ -9,7 +9,7 @@
        </head>
        <body>
 		<div class="main flex flex--column">
-			<header class="header background-dark">
+			<header class="background-dark header">
 				<div class="container flex flex--center flex--space-between">
 					<div class="pad-right32px">
 						<a href="/">
@@ -17,7 +17,7 @@
 						</a>
 					</div>
 					<nav>
-						<ul class="flex none-list-style nav-list">
+						<ul class="flex nav-list">
 							{% if g.user[1] == 'admin' %}
 								<li><a class="nav-link" href="{{ url_for('gallery.create') }}">Create</a>
 								<li><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
@@ -33,12 +33,12 @@
 			{% for m in get_flashed_messages() %}
 			<div class="background-light">
 				<div class="container">
-				       <span class="fontsize32px fontweight500 flash-msg">{{ m }}</span>
+				       <span class="flash-msg">{{ m }}</span>
 				</div>
 			</div>
 			{% endfor %}
 			{% block content %}{% endblock %}
-			<footer class="footer background-dark light">
+			<footer class="background-dark light footer">
 				<div class="container flex flex--center flex--space-between">
 					<div class="pad-right32px">
 						<a href="/">
