@@ -262,11 +262,15 @@ body{
 }
 
 .portfolio--div-img{
+	overflow: hidden;
+}
+
+.portfolio--div-img img{
 	transition: all 0.4s;
 }
 
-.portfolio--div-img:hover{
-	transform: translateY(-1.2rem);
+.portfolio--div-img img:hover{
+	transform: scale(1.1);
 }
 
 .portfolio-img{
