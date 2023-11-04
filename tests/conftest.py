@@ -15,7 +15,7 @@ def app():
         'TESTING': True,
         'UPLOAD_FOLDER': 'canoe/static/images',
         'SECRET_KEY': 'dev',
-        'DB': 'host=3.14.254.139 port=5432 user=postgres password=5247942st dbname=tests_sheikhs'
+        'DB': os.getenv('TESTS_SHEIKHS')
     })
 
     with open(Path('tests/schema.sql')) as f, app.app_context():
