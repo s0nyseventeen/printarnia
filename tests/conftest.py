@@ -6,10 +6,6 @@ from pytest import fixture
 from canoe import create_app
 from canoe.db import get_db
 
-INSERT_INTO_WORK = """
-    INSERT INTO work (title, created, description, image) VALUES
-        ('Test title', '2023-06-05 00:00:00', 'New design', 'someimage.jpg');
-"""
 DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
 
@@ -27,16 +23,7 @@ def app():
         db.run_query(f.read())
 
     yield app
-
-    with app.app_context():
-        drop_table(get_db())
-
     __remove_image(app)
-
-
-def drop_table(db):
-    for query in 'DROP TABLE users;', 'DROP TABLE work;':
-        db.run_query(query)
 
 
 def __remove_image(app):
