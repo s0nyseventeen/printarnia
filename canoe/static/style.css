@@ -290,6 +290,11 @@ body{
 	padding-left: 3.2rem;
 }
 
+.offer-price span{
+	font-size: 3.2rem;
+	padding-left: 0.4rem;
+}
+
 .offer-list{
 	gap: 2.4rem;
 	padding-top: 3.2rem;
