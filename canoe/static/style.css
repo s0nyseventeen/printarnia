@@ -105,10 +105,6 @@ body{
        font-weight: 500;
 }
 
-.fontweight600{
-	font-weight: 600;
-}
-
 .letterspacing1-5px{
 	letter-spacing: 1.5px;
 }
@@ -262,11 +258,15 @@ body{
 }
 
 .portfolio--div-img{
+	overflow: hidden;
+}
+
+.portfolio--div-img img{
 	transition: all 0.4s;
 }
 
-.portfolio--div-img:hover{
-	transform: translateY(-1.2rem);
+.portfolio--div-img img:hover{
+	transform: scale(1.1);
 }
 
 .portfolio-img{
@@ -313,6 +313,7 @@ body{
 
 .socialmedia--p{
 	font-size: 2rem;
+	font-weight: 600;
 }
 
 .socialmedia--p-margin{
@@ -339,6 +340,7 @@ body{
 
 .auth-btn{
 	padding: 0.8rem 3.2rem;
+	font-weight: 600;
 }
 
 .auth-btn-primary{
