@@ -2,7 +2,6 @@ import io
 import os
 from pathlib import Path
 
-from .conftest import INSERT_INTO_WORK
 from canoe.db import get_db
 from canoe.gallery import check_image
 from canoe.gallery import get_work
@@ -11,7 +10,6 @@ from canoe.gallery import get_work
 def test_index(app, client):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
     assert b'1_Leggitop_title_image.svg' in client.get('/').data
 
 
@@ -65,7 +63,7 @@ def test_create_with_image_check_if_image_exists_in_db(
         client.post(
             '/create',
             data={
-                'title': 'Test title',
+                'title': 'Test title2',
                 'description': 'New design',
                 'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
             },
@@ -73,7 +71,7 @@ def test_create_with_image_check_if_image_exists_in_db(
         )
 
         db = get_db()
-        db.cur.execute('SELECT * FROM work WHERE id = 1')
+        db.cur.execute('SELECT * FROM work WHERE id = 2')
         assert db.cur.fetchone()[4] == 'someimage.jpg'
 
 
@@ -86,7 +84,7 @@ def test_create_with_image_redirect(app, auth, client):
         resp = client.post(
             '/create',
             data={
-                'title': 'Test title',
+                'title': 'Test title2',
                 'description': 'New design',
                 'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
             },
@@ -104,7 +102,7 @@ def test_create_with_image_static_file(app, auth, client):
         client.post(
             '/create',
             data={
-                'title': 'Test title',
+                'title': 'Test title2',
                 'description': 'New design',
                 'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
             },
@@ -122,14 +120,14 @@ def test_create_without_image_db(app, auth, client):
         client.post(
             '/create',
             data={
-                'title': 'Test title',
+                'title': 'Test title2',
                 'description': 'New design',
                 'image': (io.BytesIO(b'randomstr'), '')
             },
             content_type='multipart/form-data'
         )
         db = get_db()
-        db.cur.execute('SELECT * FROM work WHERE id = 1')
+        db.cur.execute('SELECT * FROM work WHERE id = 2')
         assert db.cur.fetchone()[4] is None
 
 
@@ -142,7 +140,7 @@ def test_create_without_image_redirect(app, auth, client):
         resp = client.post(
             '/create',
             data={
-                'title': 'Test title',
+                'title': 'Test title2',
                 'description': 'New design',
                 'image': (io.BytesIO(b'randomstr'), '')
             },
@@ -154,7 +152,6 @@ def test_create_without_image_redirect(app, auth, client):
 def test_update_get_status_code(app, auth, client):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -168,7 +165,6 @@ def test_update_title(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         client.post(
             '/1/update',
@@ -191,7 +187,6 @@ def test_update_description(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         client.post(
             '/1/update',
@@ -214,7 +209,6 @@ def test_update_without_image_redirect(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         resp = client.post(
             '/1/update',
@@ -234,7 +228,6 @@ def test_update_with_image_dbrecord(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         client.post(
             '/1/update',
@@ -257,7 +250,6 @@ def test_update_with_image_static_file(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         client.post(
             '/1/update',
@@ -277,7 +269,6 @@ def test_update_with_image_redirect(app, auth, client):
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
-        db.run_query(INSERT_INTO_WORK)
         auth.login('admin', 'admin')
         resp = client.post(
             '/1/update',
@@ -294,14 +285,12 @@ def test_update_with_image_redirect(app, auth, client):
 def test_detail(app, client):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
     assert b'Test title' in client.get('/1').data
 
 
 def test_delete_work_dbrecord(app, auth, client):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -315,7 +304,6 @@ def test_delete_work_dbrecord(app, auth, client):
 def test_delete_redirect(app, auth, client):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -329,7 +317,6 @@ def test_remove_photo_image_column_none(app, client):
         open(Path(app.config['UPLOAD_FOLDER']) / 'someimage.jpg', 'wb') as f
     ):
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         f.write(b'0xbb')
         client.post('/1/remove_photo')
         db.cur.execute('SELECT * FROM work;')
@@ -342,7 +329,6 @@ def test_remove_photo_remove_file(app, client):
 
     with app.app_context(), open(image, 'wb') as f:
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         f.write(b'0xbb')
         client.post('/1/remove_photo')
     assert image not in os.listdir(path)
@@ -354,7 +340,6 @@ def test_remove_photo_redirect(app, client):
         open(Path(app.config['UPLOAD_FOLDER']) / 'someimage.jpg', 'wb') as f
     ):
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         f.write(b'0xbb')
     assert client.post('/1/remove_photo').headers['Location'] == '/'
 
@@ -362,7 +347,6 @@ def test_remove_photo_redirect(app, client):
 def test_get_work_exist(app):
     with app.app_context():
         db = get_db()
-        db.run_query(INSERT_INTO_WORK)
         assert get_work(1)[1] == 'Test title'
 
 
@@ -372,7 +356,7 @@ def test_get_work_non_exist(auth, client):
         data={'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
     )
     auth.login('admin', 'admin')
-    assert client.get('/1/update').status_code == 404
+    assert client.get('/2/update').status_code == 404
 
 
 class Image:
