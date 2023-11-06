@@ -10,8 +10,7 @@ pipeline{
         stages{
                 stage('Tests'){
                         steps{
-                                sh 'python3 -mpip install -r requirements.txt'
-                                sh 'python3 -m pytest tests -v'
+				sh 'python3 -mvenv venv && . venv/bin/activate && python -mpip install -r requirements.txt && python -mpytest tests -v'
                         }
                 }
                 stage('Build'){
