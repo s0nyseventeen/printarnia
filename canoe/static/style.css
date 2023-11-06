@@ -322,12 +322,22 @@ body{
 }
 
 .socialmedia--p-margin{
-	margin-bottom: 1.2rem;
+	padding-bottom: 1.2rem;
 }
 
-.socialmedia--number{
-	font-weight: 400;
-	margin-top: 2.4rem;
+.socialmedia--number:link,
+.socialmedia--number:visited{
+       display: inline-block;
+       color: #f4f4f4;
+       text-decoration: none;
+       font-size: 2rem;
+       font-weight: 400;
+       transition: all 0.3s;
+}
+
+.socialmedia--number:hover,
+.socialmedia--number:active{
+       color: #939393;
 }
 
 .auth-flex{
