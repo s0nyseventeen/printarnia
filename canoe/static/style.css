@@ -57,7 +57,17 @@ body{
 
 .grid{
 	display: grid;
+}
+
+.grid--2-cols{
 	grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3-cols{
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--gap-24px{
 	gap: 2.4rem;
 }
 
