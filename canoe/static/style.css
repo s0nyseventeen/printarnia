@@ -57,7 +57,17 @@ body{
 
 .grid{
 	display: grid;
+}
+
+.grid--2-cols{
 	grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3-cols{
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--gap-24px{
 	gap: 2.4rem;
 }
 
@@ -139,10 +149,6 @@ body{
 	padding: 0 3.2rem;
 }
 
-.inlineblock{
-	display: inline-block;
-}
-
 .flash-msg{
        display: block;
        padding-top: 4.8rem;
@@ -206,6 +212,7 @@ body{
 
 .carousel--btn:link,
 .carousel--btn:visited{
+	display: inline-block;
 	font-size: 2rem;
 	font-weight: 700;
 	background-color: #f4f4f4;
@@ -322,12 +329,22 @@ body{
 }
 
 .socialmedia--p-margin{
-	margin-bottom: 1.2rem;
+	padding-bottom: 1.2rem;
 }
 
-.socialmedia--number{
-	font-weight: 400;
-	margin-top: 2.4rem;
+.socialmedia--number:link,
+.socialmedia--number:visited{
+       display: inline-block;
+       color: #f4f4f4;
+       text-decoration: none;
+       font-size: 2rem;
+       font-weight: 400;
+       transition: all 0.3s;
+}
+
+.socialmedia--number:hover,
+.socialmedia--number:active{
+       color: #939393;
 }
 
 .auth-flex{

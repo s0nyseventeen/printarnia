@@ -12,3 +12,4 @@ pyproject.toml
 compose.yaml
 wsgi.py
 images
+.coverage

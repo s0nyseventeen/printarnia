@@ -8,7 +8,7 @@
 			<div class="carousel--inner">
 				<p class="fontsize32px carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
 				<p class="fontsize18px carousel--desc">Ознайомся з нашими пропозиціями та послугами, зроби свій бізнес стильним та впізнаваним. Ми гарантуємо унікальний дизайн, який сподобається вам та вашим клієнтам, у короткий термін та за приємну ціну.</p>
-				<a class="inlineblock carousel--btn" href="#offer">Переглянути пропозиції</a>
+				<a class="carousel--btn" href="#offer">Переглянути пропозиції</a>
 			</div>
 		</div>
 	</section>
@@ -37,15 +37,15 @@
 			<div class="flex flex--center cooldesign-inner">
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='01.png') }}" alt="Not Found">
-					<p class="fontsize16px inlineblock cooldesign-p">Створимо унікальну айдентику, та увесь бренд-пакет для вашого бізнесу</p>
+					<p class="fontsize16px cooldesign-p">Створимо унікальну айдентику, та увесь бренд-пакет для вашого бізнесу</p>
 				</div>
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='02.png') }}" alt="Not Found">
-					<p class="fontsize16px inlineblock cooldesign-p">Дослухуховуємось до усіх побажань та вибудовуємо роботу у вашому режимі</p>
+					<p class="fontsize16px cooldesign-p">Дослухуховуємось до усіх побажань та вибудовуємо роботу у вашому режимі</p>
 				</div>
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='03.png') }}" alt="Not Found">
-					<p class="fontsize16px inlineblock cooldesign-p">Візуалізуємо усю роботу, виконуємо замовлення по поліграфії та віддаємо готовий продукт</p>
+					<p class="fontsize16px cooldesign-p">Візуалізуємо усю роботу, виконуємо замовлення по поліграфії та віддаємо готовий продукт</p>
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 	<section class="background-dark light" id="portfolio">
 		<div class="container portfolio-inner">
 			<p class="fontsize64px letterspacing1-5px qoc pad-top64px pad-btm64px">НАШЕ ПОРТФОЛІО</p>
-			<div class="grid">
+			<div class="grid grid--2-cols grid--gap-24px">
 				<div class="portfolio--div-img">
 					<a href="{{ url_for('gallery.detail', id=24) }}">
 						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '1_Leggitop_title_image.svg') }}">
@@ -92,41 +92,35 @@
 	<section class="background-light" id="offer">
 		<div class="offer-cont container">
 			<p class="fontsize64px letterspacing1-5px dark qoc pad-top64px pad-btm64px">ЩО МИ ПРОПОНУЄМО?</p>
-			<div class="light flex flex--center offer-flex">
-				<div class="background-dark">
-					<p class="fontsize32px letterspacing1-5px offer-type qoc">BASIC ПАКЕТ</p>
-					<p class="fontsize64px offer-price qoc">2800<span>&#8372;</span></p>
-					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
-						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
-						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
-						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+			<div class="light grid grid--3-cols grid--gap-24px">
+				<div class="flex flex--column background-dark">
+					<p class="fontsize32px letterspacing1-5px offer-type qoc">БАЗОВИЙ ПАКЕТ</p>
+					<p class="fontsize64px offer-price qoc">####<span>&#8372;</span></p>
+					<ul class="fontsize16px pad-right32px pad-left32px flex flex--column none-list-style offer-list">
+						<li class="offer-info">Два варіанти логотипу із доопрацюванням одного обраного</li>
+						<li class="offer-info">Пакет файлів з усіма форматами логотипу</li>
 					</ul>
 				</div>
 				<div class="background-dark">
 					<p class="fontsize32px letterspacing1-5px offer-type qoc">СТАНДАРТНИЙ ПАКЕТ</p>
-					<p class="fontsize64px offer-price qoc">3800<span>&#8372;</span></p>
-					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
-						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
-						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
-						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+					<p class="fontsize64px offer-price qoc">####<span>&#8372;</span></p>
+					<ul class="fontsize16px pad-right32px pad-left32px flex flex--column none-list-style offer-list">
+						<li class="offer-info">Три варіанти логотипу із доопрацюванням одного обраного</li>
+						<li class="offer-info">Пакет підготованих файлів для друку та web-використання</li>
+						<li class="offer-info">Презентація із прикладами застосування логотипу та візуалізаціями</li>
+						<li class="offer-info">Розробка коротких версій логотипу (іконки для соцмереж чи сайтів</li>
 					</ul>
 				</div>
 				<div class="background-dark">
-					<p class="fontsize32px letterspacing1-5px offer-type qoc">ECONOM ПАКЕТ</p>
-					<p class="fontsize64px offer-price qoc">1800<span>&#8372;</span></p>
+					<p class="fontsize32px letterspacing1-5px offer-type qoc">РОЗШИРЕНИЙ ПАКЕТ</p>
+					<p class="fontsize64px offer-price qoc">####<span>&#8372;</span></p>
 					<ul class="fontsize16px pad-right32px pad-left32px pad-btm64px flex flex--column none-list-style offer-list">
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Логотип і пакет із усіма необхідними форматами</li>
-						<li class="offer-info">Розробка 3 макетів для поліграфії (візитівка, флаєр, вивіска тощо)</li>
-						<li class="offer-info">Створення фірмових паттернів для оформлення соц. мереж</li>
-						<li class="offer-info">Презантація оформлення сторінки у будь-якій соц. мережі</li>
-						<li class="offer-info">Оформлення соц. мереж та надання макетів для 6 постів та сторіз</li>
+						<li class="offer-info">Чотири варіанти логотипу із доопрацюванням одного обраного</li>
+						<li class="offer-info">Пакет підготовлених файлів для друку та web-використання</li>
+						<li class="offer-info">Презентація із прикладами застосування логотипу та візуалізаціями</li>
+						<li class="offer-info">Розробка коротких версій логотипу (іконки для соцмереж чи сайтів)</li>
+						<li class="offer-info">Створення корпоративної палітри кольорів</li>
+						<li class="offer-info">Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєр, фірмовий бланк тощо)</li>
 					</ul>
 				</div>
 			</div>

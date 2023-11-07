@@ -8,13 +8,15 @@ from canoe.gallery import get_work
 
 
 def test_index(app, client):
-    with app.app_context():
-        db = get_db()
     assert b'1_Leggitop_title_image.svg' in client.get('/').data
 
 
 def test_index_without_login(client):
-    assert b'BASIC' in client.get('/').data
+    assert b'\xd0\x9f\xd1\x80\xd0\xbe\xd1\x81\xd1\x82\xd1\x96 \xd1\x82\xd0' \
+        b'\xb0 \xd0\xb2\xd0\xb8\xd0\xb3\xd1\x96\xd0\xb4\xd0\xbd\xd1\x96 ' \
+        b'\xd1\x80\xd1\x96\xd1\x88\xd0\xb5\xd0\xbd\xd0\xbd\xd1\x8f ' \
+        b'\xd0\xb4\xd0\xbb\xd1\x8f \xd0\xb1\xd1\x96\xd0\xb7\xd0\xbd\xd0\xb5' \
+        b'\xd1\x81\xd1\x83' in client.get('/').data
 
 
 def test_index_login(auth, client):
@@ -151,7 +153,6 @@ def test_create_without_image_redirect(app, auth, client):
 
 def test_update_get_status_code(app, auth, client):
     with app.app_context():
-        db = get_db()
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -205,7 +206,6 @@ def test_update_description(app, auth, client):
 
 def test_update_without_image_redirect(app, auth, client):
     with app.app_context():
-        db = get_db()
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -246,7 +246,6 @@ def test_update_with_image_dbrecord(app, auth, client):
 
 def test_update_with_image_static_file(app, auth, client):
     with app.app_context():
-        db = get_db()
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -265,7 +264,6 @@ def test_update_with_image_static_file(app, auth, client):
 
 def test_update_with_image_redirect(app, auth, client):
     with app.app_context():
-        db = get_db()
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -283,8 +281,6 @@ def test_update_with_image_redirect(app, auth, client):
 
 
 def test_detail(app, client):
-    with app.app_context():
-        db = get_db()
     assert b'Test title' in client.get('/1').data
 
 
@@ -303,7 +299,6 @@ def test_delete_work_dbrecord(app, auth, client):
 
 def test_delete_redirect(app, auth, client):
     with app.app_context():
-        db = get_db()
         auth.register(
             {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
         )
@@ -328,7 +323,6 @@ def test_remove_photo_remove_file(app, client):
     image = path / 'someimage.jpg'
 
     with app.app_context(), open(image, 'wb') as f:
-        db = get_db()
         f.write(b'0xbb')
         client.post('/1/remove_photo')
     assert image not in os.listdir(path)
@@ -339,14 +333,12 @@ def test_remove_photo_redirect(app, client):
         app.app_context(),
         open(Path(app.config['UPLOAD_FOLDER']) / 'someimage.jpg', 'wb') as f
     ):
-        db = get_db()
         f.write(b'0xbb')
     assert client.post('/1/remove_photo').headers['Location'] == '/'
 
 
 def test_get_work_exist(app):
     with app.app_context():
-        db = get_db()
         assert get_work(1)[1] == 'Test title'
 
 
