@@ -149,10 +149,6 @@ body{
 	padding: 0 3.2rem;
 }
 
-.inlineblock{
-	display: inline-block;
-}
-
 .flash-msg{
        display: block;
        padding-top: 4.8rem;
@@ -216,6 +212,7 @@ body{
 
 .carousel--btn:link,
 .carousel--btn:visited{
+	display: inline-block;
 	font-size: 2rem;
 	font-weight: 700;
 	background-color: #f4f4f4;
