@@ -3,10 +3,10 @@
 {% block title %}Gallery{% endblock %}
 
 {% block content %}
-	<section class="light flex flex--center carousel">
+	<section class="light carousel">
 		<div class="container">
 			<div class="carousel--inner">
-				<p class="fontsize32px carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
+				<p class="carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
 				<p class="fontsize18px carousel--desc">Ознайомся з нашими пропозиціями та послугами, зроби свій бізнес стильним та впізнаваним. Ми гарантуємо унікальний дизайн, який сподобається вам та вашим клієнтам, у короткий термін та за приємну ціну.</p>
 				<a class="carousel--btn" href="#offer">Переглянути пропозиції</a>
 			</div>
@@ -32,7 +32,7 @@
 
 	<section class="background-light dark" id="cooldesign">
 		<div class="container">
-			<p class="fontsize64px letterspacing1-5px cooldesign-title qoc">РОБИМО КРУТИЙ ДИЗАЙН ДЛЯ НАШИХ КЛІЄНТІВ</p>
+			<p class="cooldesign-title qoc">РОБИМО КРУТИЙ ДИЗАЙН ДЛЯ НАШИХ КЛІЄНТІВ</p>
 			<p class="fontsize18px cooldesign-info">Ми - команда Sheikhs, наша робота - це про ваш бізнес та його обличчя. Щодня ми приймаємо десятки замовлень від клієнтів, консультуємо їх та допомагаємо у розвитку їхніх справ. Щодня ми робимо логотипи, вивсіки, поліграфічні матеріали, навігацію, візуалізації та концепти для ваших інстаграмів, торгових точок, офісів та робочих місць.</p>
 			<div class="flex flex--center cooldesign-inner">
 				<div>
@@ -53,8 +53,8 @@
 
 	<section class="background-dark light" id="portfolio">
 		<div class="container portfolio-inner">
-			<p class="fontsize64px letterspacing1-5px qoc pad-top64px pad-btm64px">НАШЕ ПОРТФОЛІО</p>
-			<div class="grid grid--2-cols grid--gap-24px">
+			<p class="portfolio-title qoc">НАШЕ ПОРТФОЛІО</p>
+			<div class="grid grid--2-cols portfolio-grid">
 				<div class="portfolio--div-img">
 					<a href="{{ url_for('gallery.detail', id=24) }}">
 						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '1_Leggitop_title_image.svg') }}">
@@ -92,7 +92,7 @@
 	<section class="background-light" id="offer">
 		<div class="offer-cont container">
 			<p class="offer-title dark qoc">ЩО МИ ПРОПОНУЄМО?</p>
-			<div class="light grid grid--3-cols grid--gap-24px">
+			<div class="light grid grid--3-cols offer-grid">
 				<div class="flex flex--column background-dark">
 					<p class="offer-type qoc">БАЗОВИЙ ПАКЕТ</p>
 					<p class="offer-price qoc">3000<span>&#8372;</span></p>

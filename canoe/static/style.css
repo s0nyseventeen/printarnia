@@ -67,10 +67,6 @@ body{
 	grid-template-columns: repeat(3, 1fr);
 }
 
-.grid--gap-24px{
-	gap: 2.4rem;
-}
-
 .background-ligth{
 	background-color: #f4f4f4;
 }
@@ -125,10 +121,6 @@ body{
 
 .textaligncenter{
 	text-align: center;
-}
-
-.pad-right32px{
-	padding-right: 3.2rem;
 }
 
 .pad-left32px{
@@ -186,17 +178,18 @@ body{
 }
 
 .carousel{
-	height: 100vh;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
 		url(main_image.jpg);
 	background-size: cover;
 }
 
 .carousel--inner{
+	padding: 30% 0;
 	max-width: 70%;
 }
 
 .carousel--heading-primary{
+	font-size: 3.0rem;
 	margin-bottom: 3.2rem;
 	letter-spacing: -0.5px;
 }
@@ -237,6 +230,8 @@ body{
 }
 
 .cooldesign-title{
+	font-size: 6.2rem;
+	letter-spacing: 1.5px;
 	padding: 12.8rem 0 4.8rem 0;
 }
 
@@ -264,6 +259,16 @@ body{
 	padding-bottom: 12.8rem;
 }
 
+.portfolio-title{
+	font-size: 6.2rem;
+	letter-spacing: 1.5px;
+	padding: 6.4rem 0;
+}
+
+.portfolio-grid{
+	gap: 2.4rem;
+}
+
 .portfolio--div-img{
 	overflow: hidden;
 }
@@ -288,7 +293,11 @@ body{
 	font-size: 6.2rem;
 	letter-spacing: 1.5px;
 	padding: 6.4rem 0;
- }
+}
+
+.offer-grid{
+	gap: 2.4rem;
+}
 
 .offer-flex{
 	gap: 3.2rem;
@@ -407,4 +416,19 @@ body{
 
 .auth-btn-danger{
 	color: red;
+}
+
+
+/* rem and em do not depend on html font-size in media queries.
+ * Insted, 1rem = 1em = 16px */
+
+/* Below 1200px Landscape tablets */
+@media(max-width: 75em){
+       html{
+               font-size: 56.25%;
+       }
+
+       .carousel{
+               background-position: center;
+       }
 }
