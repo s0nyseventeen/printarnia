@@ -296,6 +296,8 @@ body{
 
 .offer-type{
 	padding: 3.6rem 0 0.8rem 3.2rem;
+	font-size: 3rem;
+	letter-spacing: 1.5px;
 }
 
 .offer-price{
@@ -310,12 +312,26 @@ body{
 }
 
 .offer-list{
+	font-size: 1.6rem;
 	gap: 2.4rem;
-	padding-top: 3.2rem;
+	list-style: none;
+	padding: 3.2rem 3.2rem 6.4rem 3.2rem;
 }
 
 .offer-info{
+	display: flex;
+	align-items: center;
+	gap: 1.6rem;
 	line-height: 1.5;
+}
+
+.offer-icon{
+	width: 3rem;
+	height: 3rem;
+}
+
+.offer-text{
+	color: #71727e;
 }
 
 .footer{
