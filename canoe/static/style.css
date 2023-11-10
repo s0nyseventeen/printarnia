@@ -63,10 +63,6 @@ body{
 	grid-template-columns: repeat(2, 1fr);
 }
 
-.grid--3-cols{
-	grid-template-columns: repeat(3, 1fr);
-}
-
 .background-ligth{
 	background-color: #f4f4f4;
 }
@@ -295,12 +291,9 @@ body{
 	padding: 6.4rem 0;
 }
 
-.offer-grid{
-	gap: 2.4rem;
-}
-
 .offer-flex{
-	gap: 3.2rem;
+	display: flex;
+	gap: 2.4rem;
 }
 
 .offer-type{
@@ -431,4 +424,35 @@ body{
        .carousel{
                background-position: center;
        }
+}
+
+/* Below 944px Tablets */
+@media(max-width: 59em){
+	html{
+		/* 8px / 16px = 0.5 = 50% */
+		font-size: 50%;
+	}
+
+	.portfolio-grid{
+		gap: 1.6rem;
+	}
+
+	.offer-flex{
+		flex-direction: column;
+		gap: 1.6rem;
+	}
+
+	.offer-list{
+		gap: 1.6rem;
+		list-style: none;
+		padding: 2.4rem 2.4rem 4.8rem 2.4rem;
+	}
+
+	.offer-type{
+		padding: 2.4rem 0 0.8rem 2.4rem;
+	}
+
+	.offer-price{
+		padding-left: 2.4rem;
+	}
 }
