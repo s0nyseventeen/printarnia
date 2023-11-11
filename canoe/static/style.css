@@ -20,6 +20,7 @@ MAIN COLOR: #232222
 html{
 	font-size: 62.5%;
 	overflow-x: hidden;
+	scroll-behavior: smooth;
 }
 
 body{
