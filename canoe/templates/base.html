@@ -2,22 +2,24 @@
 <html>
        <head>
 		<meta charset="UTF-8"/>
-		<title>{% block title %}{% endblock %} - sheikhs</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="description" content="SHEIKHS design is an ukrainian graphic design studio based in Kyiv"/>
+		<title>{% block title %}{% endblock %}SHEIKHS &mdash; графічний дизайн для бізнесу</title>
+		<link rel="icon" type="image/png" href="{{ url_for('static', filename='sheikhs_favicon.svg') }}"/>
+		<link rel="apple-touch-icon" href="{{ url_for('static', filename='sheikhs_favicon.svg') }}"/>
 		<link href="https://fonts.cdnfonts.com/css/geometria" rel="stylesheet"/>
 		<link href="https://fonts.cdnfonts.com/css/queen-of-clubs" rel="stylesheet"/>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
-		<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='sheikhs_favicon.svg') }}"/>
        </head>
        <body>
 		<div class="main flex flex--column">
 			<header class="background-dark header">
-				<div class="container flex flex--center flex--space-between">
-					<div class="pad-right32px">
-						<a href="/">
-							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
-						</a>
-					</div>
-					<nav>
+				<div class="container flex flex--center flex--space-between header--inner">
+					<a href="/">
+						<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+					</a>
+					<nav class="main-nav">
 						<ul class="flex nav-list">
 							{% if g.user[1] == 'admin' %}
 								<li><a class="nav-link" href="{{ url_for('gallery.create') }}">Create</a>
@@ -29,6 +31,10 @@
 							{% endif %}
 						</ul>
 					</nav>
+					<button class="btn-mobile-nav">
+						<ion-icon class="icon-mobile-nav" name="menu-outline"></ion-icon>
+						<ion-icon class="icon-mobile-nav" name="close-circle-outline"></ion-icon>
+					</button>
 				</div>
 			</header>
 			{% for m in get_flashed_messages() %}
@@ -40,12 +46,10 @@
 			{% endfor %}
 			{% block content %}{% endblock %}
 			<footer class="background-dark light footer">
-				<div class="container flex flex--center flex--space-between">
-					<div class="pad-right32px">
-						<a href="/">
-							<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
-						</a>
-					</div>
+				<div class="container flex footer--div">
+					<a href="/">
+						<img class="logo-img" src="{{ url_for('static', filename='Logo.svg') }}" alt="Not Found">
+					</a>
 					<address class="socialmedia">
 						<p class="socialmedia--p socialmedia--p-margin">Наші соціальні мережі</p>
 						<div class="flex flex--space-between socialmedia--div">
@@ -62,12 +66,15 @@
 					</address>
 					<address>
 						<p class="socialmedia--p socialmedia--p-margin">Зробити замовлення</p>
-						<p class="textaligncenter socialmedia--p">
+						<p class="socialmedia--p">
 							<a class="socialmedia--number" href="tel:+38 (093) 834 12 38">+38 (093) 834 12 38</a>
 						</p>
 					</address>
 				</div>
 			</footer>
 		</div>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+		<script defer src="{{ url_for('static', filename='script.js') }}"/></script>
        </body>
 </html>

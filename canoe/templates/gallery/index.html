@@ -1,20 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Gallery{% endblock %}
-
 {% block content %}
-	<section class="light flex flex--center carousel">
+	<section class="light carousel">
 		<div class="container">
 			<div class="carousel--inner">
-				<p class="fontsize32px carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
-				<p class="fontsize18px carousel--desc">Ознайомся з нашими пропозиціями та послугами, зроби свій бізнес стильним та впізнаваним. Ми гарантуємо унікальний дизайн, який сподобається вам та вашим клієнтам, у короткий термін та за приємну ціну.</p>
+				<p class="carousel--heading-primary">Прості та вигідні рішення для бізнесу</p>
+				<p class="carousel--desc">Ознайомтеся з нашими пропозиціями та послугами, зробіть свій бізнес стильним та впізнаваним. Ми гарантуємо унікальний дизайн, який сподобається вам та вашим клієнтам, у короткий термін та за приємну ціну.</p>
 				<a class="carousel--btn" href="#offer">Переглянути пропозиції</a>
 			</div>
 		</div>
 	</section>
 
 	<section class="background-dark light pad-top64px pad-btm64px">
-		<div class="container textaligncenter flex flex--center flex--space-around">
+		<div class="container flex statistics-flex">
 			<div>
 				<p class="statistics-count qoc">0256</p>
 				<p class="fontsize24px statistics-info">Виконаних замовлень</p>
@@ -32,20 +30,20 @@
 
 	<section class="background-light dark" id="cooldesign">
 		<div class="container">
-			<p class="fontsize64px letterspacing1-5px cooldesign-title qoc">РОБИМО КРУТИЙ ДИЗАЙН ДЛЯ НАШИХ КЛІЄНТІВ</p>
-			<p class="fontsize18px cooldesign-info">Ми - команда Sheikhs, наша робота - це про ваш бізнес та його обличчя. Щодня ми приймаємо десятки замовлень від клієнтів, консультуємо їх та допомагаємо у розвитку їхніх справ. Щодня ми робимо логотипи, вивсіки, поліграфічні матеріали, навігацію, візуалізації та концепти для ваших інстаграмів, торгових точок, офісів та робочих місць.</p>
+			<p class="cooldesign-title qoc">РОБИМО КРУТИЙ ДИЗАЙН ДЛЯ НАШИХ КЛІЄНТІВ</p>
+			<p class="cooldesign-info">Ми - команда Sheikhs, наша робота - це про ваш бізнес та його обличчя. Щодня ми приймаємо десятки замовлень від клієнтів, консультуємо та допомагаємо у розвитку їх справ. Робимо логотипи, вивіски, поліграфічні матеріали, навігацію, візуалізації та концепти для ваших соцмереж, торгових точок, офісів та робочих місць.</p>
 			<div class="flex flex--center cooldesign-inner">
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='01.png') }}" alt="Not Found">
-					<p class="fontsize16px cooldesign-p">Створимо унікальну айдентику, та увесь бренд-пакет для вашого бізнесу</p>
+					<p class="cooldesign-p">Створюємо унікальну айдентику, та повний бренд-пакет для вашого бізнесу</p>
 				</div>
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='02.png') }}" alt="Not Found">
-					<p class="fontsize16px cooldesign-p">Дослухуховуємось до усіх побажань та вибудовуємо роботу у вашому режимі</p>
+					<p class="cooldesign-p">Дослуховуємось до усіх побажань та вибудовуємо роботу у вашому режимі</p>
 				</div>
 				<div>
 					<img class="cooldesign-img" src="{{ url_for('static', filename='03.png') }}" alt="Not Found">
-					<p class="fontsize16px cooldesign-p">Візуалізуємо усю роботу, виконуємо замовлення по поліграфії та віддаємо готовий продукт</p>
+					<p class="cooldesign-p">Візуалізуємо усю роботу, виконуємо замовлення по поліграфії та віддаємо готовий продукт</p>
 				</div>
 			</div>
 		</div>
@@ -53,8 +51,8 @@
 
 	<section class="background-dark light" id="portfolio">
 		<div class="container portfolio-inner">
-			<p class="fontsize64px letterspacing1-5px qoc pad-top64px pad-btm64px">НАШЕ ПОРТФОЛІО</p>
-			<div class="grid grid--2-cols grid--gap-24px">
+			<p class="portfolio-title qoc">НАШЕ ПОРТФОЛІО</p>
+			<div class="grid portfolio-grid">
 				<div class="portfolio--div-img">
 					<a href="{{ url_for('gallery.detail', id=24) }}">
 						<img class="portfolio-img" src="{{ url_for('static', filename='images/' + '1_Leggitop_title_image.svg') }}">
@@ -92,41 +90,41 @@
 	<section class="background-light" id="offer">
 		<div class="offer-cont container">
 			<p class="offer-title dark qoc">ЩО МИ ПРОПОНУЄМО?</p>
-			<div class="light grid grid--3-cols grid--gap-24px">
+			<div class="light offer-flex">
 				<div class="flex flex--column background-dark">
 					<p class="offer-type qoc">БАЗОВИЙ ПАКЕТ</p>
 					<p class="offer-price qoc">3000<span>&#8372;</span></p>
 					<ul class="flex flex--column offer-list">
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Два варіанти логотипу із доопрацюванням одного обраного</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Пакет файлів з усіма форматами логотипу</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Презентація із прикладами застосування логотипу та візуалізаціями</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Розробка коротких версій логотипу (іконки для соцмереж чи сайтів)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Два варіанти логотипу з доопрацюванням одного обраного</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Пакет підготованих файлів для друку та web-використання</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Презентація з прикладами застосування логотипу та візуалізаціями</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Розробка коротких версій логотипу (іконки для соцмереж, сайтів тощо)</span></li>
 						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Створення корпоративної палітри кольорів</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєр, фірмовий бланк тощо)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєри, фірмові бланки тощо)</span></li>
 					</ul>
 				</div>
 				<div class="background-dark">
 					<p class="offer-type qoc">СТАНДАРТНИЙ ПАКЕТ</p>
 					<p class="offer-price qoc">4000<span>&#8372;</span></p>
 					<ul class="flex flex--column offer-list">
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Три варіанти логотипу із доопрацюванням одного обраного</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Три варіанти логотипу з доопрацюванням одного обраного</span></li>
 						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Пакет підготованих файлів для друку та web-використання</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Презентація із прикладами застосування логотипу та візуалізаціями</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Розробка коротких версій логотипу (іконки для соцмереж чи сайтів)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Презентація з прикладами застосування логотипу та візуалізаціями</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Розробка коротких версій логотипу (іконки для соцмереж, сайтів тощо)</span></li>
 						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Створення корпоративної палітри кольорів</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєр, фірмовий бланк тощо)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='crossmark.svg') }}" alt="Not Found"/><span class="offer-text">Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєри, фірмові бланки тощо)</span></li>
 					</ul>
 				</div>
 				<div class="background-dark">
 					<p class="offer-type qoc">РОЗШИРЕНИЙ ПАКЕТ</p>
 					<p class="offer-price qoc">5000<span>&#8372;</span></p>
 					<ul class="flex flex--column offer-list">
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Чотири варіанти логотипу із доопрацюванням одного обраного</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Пакет підготовлених файлів для друку та web-використання</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Презентація із прикладами застосування логотипу та візуалізаціями</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Розробка коротких версій логотипу (іконки для соцмереж чи сайтів)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Чотири варіанти логотипу з доопрацюванням одного обраного</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Пакет підготованих файлів для друку та web-використання</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Презентація з прикладами застосування логотипу та візуалізаціями</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Розробка коротких версій логотипу (іконки для соцмереж, сайтів тощо)</span></li>
 						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Створення корпоративної палітри кольорів</span></li>
-						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєр, фірмовий бланк тощо)</span></li>
+						<li class="offer-info"><img class="offer-icon" src="{{ url_for('static', filename='checkmark.svg') }}" alt="Not Found"/><span>Підготовка фірмових текстур для соцмереж та трьох макетів поліграфії (візитки, флаєри, фірмові бланки тощо)</span></li>
 					</ul>
 				</div>
 			</div>
