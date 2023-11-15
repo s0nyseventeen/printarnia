@@ -1,6 +1,6 @@
 [project]
 name = 'canoe'
-version = '2.1.0'
+version = '2.1.1'
 description = 'The second release of the sheikhs project'
 dependencies = [
 	'flask',
