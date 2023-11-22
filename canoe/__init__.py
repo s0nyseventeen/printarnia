@@ -11,8 +11,8 @@ def create_app(test_config=None):
     else:
         app.config.from_file('config.json', load=json.load)
 
-    from .db import init_app
-    init_app(app)
+    from .extensions import db
+    db.init_app(app)
 
     from .auth import bp
     app.register_blueprint(bp)
