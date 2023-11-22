@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Edit "{{ work[1] }}"{% endblock %}
+{% block title %}Edit "{{ work.title }}"{% endblock %}
 
 {% block content %}
 	<section class="background-light dark flex--view-priority">
@@ -9,17 +9,17 @@
 				<form method="post" enctype="multipart/form-data">
 					<ul class="flex flex--column auth-flex none-list-style">
 						<li class="auth-text"><label for="title">Title</label></li>
-						<li><input name="title" id="title" value="{{ request.form['title'] or work[1] }}" required></li>
+						<li><input name="title" id="title" value="{{ request.form['title'] or work.title }}" required></li>
 						<li class="auth-text"><label for="description">Description</label></li>
-						<li><textarea class="auth-create-textarea" name="description" id="description">{{ request.form['description'] or work[3] }}</textarea></li>
+						<li><textarea class="auth-create-textarea" name="description" id="description">{{ request.form['description'] or work.description }}</textarea></li>
 						<li><input name="image" type="file"></li>
 						<li><input class="fontsize16px auth-btn auth-btn-primary" type="submit" value="Save"></li>
 					</ul>
 				</form>
-				<form action="{{ url_for('gallery.remove_photo', id=work[0]) }}" method="post">
+				<form action="{{ url_for('gallery.remove_photo', id=work.id) }}" method="post">
 					<input class="fontsize16px auth-btn auth-btn-danger" type="submit" value="Remove photo" onclick="return confirm('Are you sure?');">
 				</form>
-				<form action="{{ url_for('gallery.delete', id=work[0]) }}" method="post">
+				<form action="{{ url_for('gallery.delete', id=work.id) }}" method="post">
 					<input class="fontsize16px auth-btn auth-btn-danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
 				</form>
 			</div>

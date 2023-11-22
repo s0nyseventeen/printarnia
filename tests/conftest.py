@@ -4,7 +4,6 @@ from pathlib import Path
 from pytest import fixture
 
 from canoe import create_app
-from canoe.db import get_db
 
 DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
@@ -19,7 +18,6 @@ def app():
     })
 
     with open(Path('tests/schema.sql')) as f, app.app_context():
-        db = get_db()
         db.run_query(f.read())
 
     yield app

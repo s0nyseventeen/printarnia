@@ -21,7 +21,7 @@
 					</a>
 					<nav class="main-nav">
 						<ul class="flex nav-list">
-							{% if g.user[1] == 'admin' %}
+							{% if g.user.username == 'admin' %}
 								<li><a class="nav-link" href="{{ url_for('gallery.create') }}">Create</a>
 								<li><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
 							{% else %}
