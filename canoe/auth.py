@@ -2,45 +2,11 @@ from functools import wraps
 
 from flask import g
 from flask import redirect
-from flask import render_template
-from flask import request
 from flask import session
 from flask import url_for
-from psycopg2.sql import Identifier
-from psycopg2.sql import Literal
-from psycopg2.sql import SQL
 from werkzeug.exceptions import abort
-from werkzeug.security import check_password_hash
 
 from .db import get_db
-
-
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        error = None
-        db = get_db()
-        db.cur.execute(
-            SQL("SELECT * FROM {table} WHERE username = {username};").format(
-                table=Identifier('users'), username=Literal(username)
-            )
-        )
-        user = db.cur.fetchone()
-
-        if not user:
-            error = 'Incorrect username'
-
-        elif not check_password_hash(user[3], password):
-            error = 'Incorrect password'
-
-        if not error:
-            session.clear()
-            session['user_id'] = user[0]
-            return redirect(url_for('gallery.index'))
-        flash(error)
-    return render_template('auth/login.html')
 
 
 @bp.before_app_request
