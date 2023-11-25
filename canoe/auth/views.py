@@ -63,4 +63,10 @@ def login_required(view):
     return wrapper
 
 
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('gallery.index'))
+
+
 bp.add_url_rule('/auth/login', view_func=Login.as_view('auth', 'login.html'))
