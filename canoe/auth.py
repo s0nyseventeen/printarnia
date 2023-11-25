@@ -6,24 +6,6 @@ from flask import session
 from flask import url_for
 from werkzeug.exceptions import abort
 
-from .db import get_db
-
-
-@bp.before_app_request
-def load_logged_in_user():
-    user_id = session.get('user_id')
-    db = get_db()
-
-    if not user_id:
-        g.user = None
-    else:
-        db.cur.execute(
-            SQL('SELECT * FROM {table} WHERE id = {user_id};').format(
-                table=Identifier('users'), user_id=Literal(user_id)
-            )
-        )
-        g.user = db.cur.fetchone()
-
 
 def login_required(view):
 

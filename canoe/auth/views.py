@@ -12,6 +12,15 @@ from canoe.auth import bp
 from canoe.auth.models import Users
 
 
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+    if not user_id:
+        g.user = None
+    else:
+        g.user = Users.query.filter_by(id=user_id).first()
+
+
 class Login(View):
     methods = ['GET', 'POST']
 
