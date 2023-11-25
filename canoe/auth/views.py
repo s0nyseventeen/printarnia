@@ -1,4 +1,7 @@
+from functools import wraps
+
 from flask import flash
+from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -49,6 +52,15 @@ class Login(View):
                     session['user_id'] = user.id
                     return redirect(url_for('gallery.index'))
                 flash(error)
+
+
+def login_required(view):
+    @wraps(view)
+    def wrapper(**kwargs):
+        if not g.get('user') or g.user[1] != 'admin':
+            return abort(403)
+        return view(**kwargs)
+    return wrapper
 
 
 bp.add_url_rule('/auth/login', view_func=Login.as_view('auth', 'login.html'))
