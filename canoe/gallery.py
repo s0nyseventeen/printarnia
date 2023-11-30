@@ -17,19 +17,6 @@ from werkzeug.exceptions import abort
 from .auth import login_required
 from .db import get_db
 
-bp = Blueprint('gallery', __name__)
-
-
-@bp.route('/')
-def index():
-    db = get_db()
-    db.cur.execute(
-        SQL('SELECT * FROM {table} ORDER BY created DESC;').format(
-            table=Identifier('work')
-        )
-    )
-    works = db.cur.fetchall()
-    return render_template('gallery/index.html', works=works)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
