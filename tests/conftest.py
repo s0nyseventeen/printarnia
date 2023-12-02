@@ -2,8 +2,10 @@ import os
 from pathlib import Path
 
 from pytest import fixture
+from sqlalchemy import text
 
 from canoe import create_app
+from canoe.extensions import db
 
 DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
@@ -14,11 +16,12 @@ def app():
         'TESTING': True,
         'UPLOAD_FOLDER': 'canoe/static/images',
         'SECRET_KEY': 'dev',
-        'DB': os.getenv('TESTS_SHEIKHS')
+        'SQLALCHEMY_DATABASE_URI': os.getenv('TESTS_SHEIKHS')
     })
 
     with open(Path('tests/schema.sql')) as f, app.app_context():
-        db.run_query(f.read())
+        db.session.execute(text(f.read()))
+        db.session.commit()
 
     yield app
     __remove_image(app)
