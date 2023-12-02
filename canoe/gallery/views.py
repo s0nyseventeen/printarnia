@@ -87,6 +87,7 @@ def detail(id):
 @login_required
 def delete(id):
     Work.query.filter_by(id=id).delete()
+    db.session.commit()
     return redirect(url_for('gallery.index'))
 
 
@@ -101,11 +102,10 @@ def remove_photo(id):
 
 def get_work(id):
     work = Work.query.filter_by(id=id).first()
-
     if not work:
         abort(404, f'Work id {id} does not exist')
     return work
 
 
 def check_image_exists(image) -> bool:
-    return image is not None
+    return image.filename != ''
