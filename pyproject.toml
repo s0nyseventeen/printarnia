@@ -5,7 +5,8 @@ description = 'The second release of the sheikhs project'
 dependencies = [
 	'flask',
 	'psycopg2-binary',
-	'gunicorn'
+	'gunicorn',
+	'Flask-SQLAlchemy'
 ]
 
 [build-system]
