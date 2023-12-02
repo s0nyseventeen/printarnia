@@ -121,6 +121,7 @@ def test_create_without_image_db(app, auth, client):
             data={
                 'title': 'Test title2',
                 'description': 'New design',
+                'image': (io.BytesIO(b'randomstr'), '')
             },
             content_type='multipart/form-data'
         )
@@ -138,6 +139,7 @@ def test_create_without_image_redirect(app, auth, client):
             data={
                 'title': 'Test title2',
                 'description': 'New design',
+                'image': (io.BytesIO(b'randomstr'), '')
             },
             content_type='multipart/form-data'
         )
@@ -200,6 +202,7 @@ def test_update_without_image_redirect(app, auth, client):
             data={
                 'title': 'Test title',
                 'description': 'Updated',
+                'image': (io.BytesIO(b'randomstr'), '')
             },
             content_type='multipart/form-data'
         )
@@ -327,13 +330,13 @@ def test_get_work_non_exist(auth, client):
 
 
 class Image:
-    def __init__(self):
-        self.filename = 'someimage.jpg'
+    def __init__(self, filename=''):
+        self.filename = filename
 
 
 def test_check_image_true():
-    assert not check_image_exists(None)
+    assert not check_image_exists(Image())
 
 
 def test_check_image_false():
-    assert check_image_exists(Image())
+    assert check_image_exists(Image('someimage.jpg'))

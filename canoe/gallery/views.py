@@ -108,4 +108,4 @@ def get_work(id):
 
 
 def check_image_exists(image) -> bool:
-    return image is not None
+    return image.filename != ''
