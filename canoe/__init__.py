@@ -1,4 +1,4 @@
-import json
+import os
 
 from flask import Flask
 
@@ -9,10 +9,14 @@ def create_app(test_config=None):
     if test_config:
         app.config.from_mapping(test_config)
     else:
-        app.config.from_file('config.json', load=json.load)
+        app.config.from_mapping({
+            'UPLOAD_FOLDER': os.getenv('UPLOAD_FOLDER'),
+            'SECRET_KEY': os.getenv('SECRET_KEY'),
+            'SQLALCHEMY_DATABASE_URI': os.getenv('SQLALCHEMY_DATABASE_URI')
+        })
 
-    from .db import init_app
-    init_app(app)
+    from .extensions import db
+    db.init_app(app)
 
     from .auth import bp
     app.register_blueprint(bp)

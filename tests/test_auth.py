@@ -2,7 +2,7 @@ from flask import g
 from flask import session
 
 from .conftest import DEFAULT_USER
-from canoe.db import get_db
+from canoe.auth.models import Users
 
 
 def test_register_get_request(app, client):
@@ -31,11 +31,7 @@ def test_register_validate_email_missed(auth):
 def test_register_user(auth, app):
     auth.register(DEFAULT_USER)
     with app.app_context():
-        db = get_db()
-        db.cur.execute(
-            "SELECT * FROM users WHERE username = 'test';"
-        )
-        assert db.cur.fetchone() is not None
+        assert Users.query.filter_by(username='test').first() is not None
 
 
 def test_register_redirect(auth):
