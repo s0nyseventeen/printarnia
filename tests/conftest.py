@@ -4,8 +4,8 @@ from pathlib import Path
 from pytest import fixture
 from sqlalchemy import text
 
-from canoe import create_app
-from canoe.extensions import db
+from src import create_app
+from src.extensions import db
 
 DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
@@ -14,7 +14,7 @@ DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 def app():
     app = create_app({
         'TESTING': True,
-        'UPLOAD_FOLDER': 'canoe/static/images',
+        'UPLOAD_FOLDER': 'src/static/images',
         'SECRET_KEY': 'dev',
         'SQLALCHEMY_DATABASE_URI': os.getenv('TESTS_SHEIKHS')
     })

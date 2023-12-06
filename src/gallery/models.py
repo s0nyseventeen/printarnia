@@ -3,7 +3,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import Mapped
 
-from canoe.extensions import db
+from src.extensions import db
 
 
 class Work(db.Model):

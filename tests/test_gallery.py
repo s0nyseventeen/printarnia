@@ -2,9 +2,9 @@ import io
 import os
 from pathlib import Path
 
-from canoe.gallery.models import Work
-from canoe.gallery.views import check_image_exists
-from canoe.gallery.views import get_work
+from src.gallery.models import Work
+from src.gallery.views import check_image_exists
+from src.gallery.views import get_work
 
 
 def test_index(app, client):

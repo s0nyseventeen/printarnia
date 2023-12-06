@@ -4,4 +4,4 @@ bp = Blueprint(
     'auth', __name__, url_prefix='/auth', template_folder='templates'
 )
 
-from canoe.auth import views
+from src.auth import views
