@@ -6,7 +6,8 @@ dependencies = [
 	'flask',
 	'psycopg2-binary',
 	'gunicorn',
-	'Flask-SQLAlchemy'
+	'Flask-SQLAlchemy',
+	'python-dotenv'
 ]
 
 [build-system]
