@@ -1,9 +1,7 @@
-import datetime
 import os
 from pathlib import Path
 
 from flask import current_app
-from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -20,38 +18,6 @@ from src.gallery.models import Work
 @bp.route('/')
 def index():
     return render_template('index.html')
-
-
-@bp.route('/create', methods=('GET', 'POST'))
-@login_required
-def create():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        created = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-        description = request.form.get('description')
-        image = request.files.get('image')
-
-        if not title:
-            flash('Title is required')
-            return render_template('create.html')
-
-        if not check_image_exists(image):
-            db.session.add(Work(
-                title=title, created=created, description=description
-            ))
-            db.session.commit()
-            return redirect(url_for('gallery.index'))
-
-        db.session.add(Work(
-            title=title,
-            created=created,
-            description=description,
-            image=image.filename
-        ))
-        db.session.commit()
-        image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
-        return redirect(url_for('gallery.index'))
-    return render_template('create.html')
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))

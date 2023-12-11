@@ -54,6 +54,14 @@ body{
 	flex: 1;
 }
 
+.flex--gap24px{
+	gap: 2.4rem;
+}
+
+.flex--gap36px{
+	gap: 3.6rem;
+}
+
 .grid{
 	display: grid;
 }
