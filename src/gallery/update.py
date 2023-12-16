@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from flask import current_app
@@ -12,6 +13,7 @@ from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work
 from src.lib.abstractview import AbstractView
+from src.lib.request_helpers import get_img_info
 
 
 class AbstractUpdate(AbstractView):
@@ -78,6 +80,31 @@ class AddWorkImage(AbstractUpdate):
         return render_template(self.template, work=work)
 
 
+class DetailImage(AbstractUpdate):
+    methods = ['GET', 'POST']
+
+    def dispatch_request(self, work_id, image_id):
+        image = self.model.query.get_or_404(image_id)
+        if request.method == 'GET':
+            return render_template(self.template, image=image)
+
+        img, description = get_img_info(request)
+        if img:
+            old_filename = image.title
+            new_filename = img.filename
+            image.title = new_filename
+            path = Path(current_app.config['UPLOAD_FOLDER'])
+            img.save(path / new_filename)
+            os.remove(path / old_filename)
+
+        old_description = image.description
+        if description != old_description:
+            image.description = description
+
+        db.session.commit()
+        return redirect(url_for('gallery.WorkImageList', id=work_id))
+
+
 bp.add_url_rule(
     '/<int:id>/update',
     view_func=UpdateWork.as_view('UpdateWork', Work, 'update.html')
@@ -89,4 +116,8 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/<int:id>/update/images/add_image',
     view_func=AddWorkImage.as_view('AddWorkImage', Work, Image, 'add_image.html')
+)
+bp.add_url_rule(
+    '/<int:work_id>/update/images/detail/<int:image_id>',
+    view_func=DetailImage.as_view('DetailImage', Image, 'detail_image.html')
 )
