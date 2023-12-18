@@ -86,7 +86,7 @@ def detail(id):
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    Work.query.filter_by(id=id).delete()
+    db.session.delete(Work.query.get(id))
     db.session.commit()
     return redirect(url_for('gallery.index'))
 
