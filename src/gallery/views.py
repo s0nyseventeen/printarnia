@@ -13,6 +13,7 @@ from werkzeug.exceptions import abort
 from src.auth.views import login_required
 from src.extensions import db
 from src.gallery import bp
+from src.gallery.models import Image
 from src.gallery.models import Work
 
 
@@ -91,13 +92,14 @@ def delete(id):
     return redirect(url_for('gallery.index'))
 
 
-@bp.route('/<int:id>/remove_photo', methods=('POST',))
+@bp.route('/remove_photo/<int:id>', methods=('POST',))
 def remove_photo(id):
-    work_image = get_work(id).image
-    Work.query.filter_by(id=id).update(dict(image=None))
+    image = Image.query.get(id)
+    work_id = image.work.id
+    db.session.delete(image)
     db.session.commit()
-    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / work_image)
-    return redirect(url_for('gallery.index'))
+    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / image.title)
+    return redirect(url_for('gallery.WorkImageList', id=work_id))
 
 
 def get_work(id):
