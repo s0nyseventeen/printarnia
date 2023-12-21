@@ -19,7 +19,7 @@ from src.gallery.models import Work
 
 @bp.route('/')
 def index():
-    return render_template('index.html', works=Work.query.all())
+    return render_template('index.html')
 
 
 @bp.route('/create', methods=('GET', 'POST'))
