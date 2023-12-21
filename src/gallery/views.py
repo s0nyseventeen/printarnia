@@ -21,7 +21,11 @@ def index():
 
 @bp.route('/<int:id>')
 def detail(id):
-    return render_template('detail.html', work=get_work(id))
+    return render_template(
+        'detail_work.html',
+        work=Work.query.get_or_404(id),
+        images=Image.query.filter_by(work_id=id).order_by(Image.id).all()
+    )
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
