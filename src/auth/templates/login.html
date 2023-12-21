@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
-
 {% block title %}Log In{% endblock %}
-
 {% block content %}
 	<section class="background-light dark flex--view-priority">
 		<div class="container">
 			<div class="pad-top64px">
 				<form method="post">
-					<ul class="flex flex--column auth-flex none-list-style">
+					<ul class="flex flex--column flex--gap36px none-list-style">
 						<li class="auth-text"><label for="username">Username</label></li>
 						<li><input name="username" id="username" required></li>
 						<li class="auth-text"><label for="password">Password</label></li>

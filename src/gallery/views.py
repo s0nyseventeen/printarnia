@@ -4,7 +4,6 @@ from pathlib import Path
 from flask import current_app
 from flask import redirect
 from flask import render_template
-from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 
@@ -18,31 +17,6 @@ from src.gallery.models import Work
 @bp.route('/')
 def index():
     return render_template('index.html')
-
-
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@login_required
-def update(id):
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        image = request.files.get('image')
-
-        if not check_image_exists(image):
-            Work.query.filter_by(id=id).update(
-                dict(title=title, description=description)
-            )
-            db.session.commit()
-            return redirect(url_for('gallery.detail', id=id))
-
-        Work.query.filter_by(id=id).update(
-            dict(title=title, description=description, image=image.filename)
-        )
-        db.session.commit()
-        image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
-        return redirect(url_for('gallery.detail', id=id))
-
-    return render_template('update.html', work=get_work(id))
 
 
 @bp.route('/<int:id>')
