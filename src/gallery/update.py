@@ -1,7 +1,5 @@
 import os
-from pathlib import Path
 
-from flask import current_app
 from flask import flash
 from flask import redirect
 from flask import request
@@ -13,6 +11,7 @@ from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work
 from src.lib.abstractview import AbstractView
+from src.lib.funcs import get_upload_path
 from src.lib.request_helpers import get_img_info
 
 
@@ -73,7 +72,7 @@ class AddWorkImage(AbstractUpdate):
             )
             db.session.add(new_image)
             db.session.commit()
-            image.save(Path(current_app.config['UPLOAD_FOLDER']) / image.filename)
+            image.save(get_upload_path() / image.filename)
             return redirect(url_for('gallery.WorkImageList', id=id))
 
         flash('Please add a file')
@@ -93,7 +92,7 @@ class DetailImage(AbstractUpdate):
             old_filename = image.title
             new_filename = img.filename
             image.title = new_filename
-            path = Path(current_app.config['UPLOAD_FOLDER'])
+            path = get_upload_path()
             img.save(path / new_filename)
             os.remove(path / old_filename)
 

@@ -1,7 +1,5 @@
 import os
-from pathlib import Path
 
-from flask import current_app
 from flask import redirect
 from flask import render_template
 from flask import url_for
@@ -12,6 +10,7 @@ from src.extensions import db
 from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work
+from src.lib.funcs import get_upload_path
 
 
 @bp.route('/')
@@ -36,7 +35,7 @@ def delete(id):
     db.session.commit()
 
     for i in work.images:
-        os.remove(Path(current_app.config['UPLOAD_FOLDER']) / i.title)
+        os.remove(get_upload_path() / i.title)
     return redirect(url_for('gallery.index'))
 
 
@@ -46,7 +45,7 @@ def remove_photo(id):
     work_id = image.work.id
     db.session.delete(image)
     db.session.commit()
-    os.remove(Path(current_app.config['UPLOAD_FOLDER']) / image.title)
+    os.remove(get_upload_path() / image.title)
     return redirect(url_for('gallery.WorkImageList', id=work_id))
 
 

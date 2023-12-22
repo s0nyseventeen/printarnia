@@ -1,7 +1,5 @@
 import datetime
-from pathlib import Path
 
-from flask import current_app
 from flask import flash
 from flask import redirect
 from flask import render_template
@@ -13,6 +11,7 @@ from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work
 from src.lib.abstractview import AbstractView
+from src.lib.funcs import get_upload_path
 from src.lib.request_helpers import get_img_info
 
 
@@ -44,7 +43,7 @@ class Create(AbstractView):
         )
         db.session.add(new_image)
         db.session.commit()
-        img.save(Path(current_app.config['UPLOAD_FOLDER']) / img.filename)
+        img.save(get_upload_path() / img.filename)
         return redirect(url_for('gallery.index'))
 
 
