@@ -31,8 +31,12 @@ def detail(id):
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    db.session.delete(Work.query.get(id))
+    work = Work.query.get(id)
+    db.session.delete(work)
     db.session.commit()
+
+    for i in work.images:
+        os.remove(Path(current_app.config['UPLOAD_FOLDER']) / i.title)
     return redirect(url_for('gallery.index'))
 
 
