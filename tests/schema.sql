@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS work;
+DROP TABLE IF EXISTS image;
+DROP TABLE IF EXISTS work CASCADE;
 
 CREATE TABLE users (
 	id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -12,9 +13,12 @@ CREATE TABLE work (
 	id BIGSERIAL NOT NULL PRIMARY KEY,
 	title VARCHAR(256) UNIQUE NOT NULL,
 	created VARCHAR(256) NOT NULL,
-	description VARCHAR(1000),
-	image VARCHAR(256)
+	description TEXT
 );
 
-INSERT INTO work (title, created, description, image) VALUES
-	('Test title', '2023-06-05 00:00:00', 'New design', 'someimage.jpg');
+CREATE TABLE image (
+	id BIGSERIAL NOT NULL PRIMARY KEY,
+	title VARCHAR(256) UNIQUE NOT NULL,
+	description TEXT,
+	work_id BIGINT REFERENCES work(id)
+);

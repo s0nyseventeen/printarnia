@@ -1,8 +1,9 @@
 from flask import g
 from flask import session
 
-from .conftest import DEFAULT_USER
 from src.auth.models import Users
+
+DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
 
 
 def test_register_get_request(app, client):
