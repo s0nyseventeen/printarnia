@@ -54,7 +54,3 @@ def get_work(id):
     if not work:
         abort(404, f'Work id {id} does not exist')
     return work
-
-
-def check_image_exists(image) -> bool:
-    return image.filename != ''
