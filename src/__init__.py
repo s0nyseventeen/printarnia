@@ -10,7 +10,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
     else:
         app.config.from_mapping({
-            'UPLOAD_FOLDER': 'src/static/images',
+            'UPLOAD_FOLDER': os.getenv('UPLOAD_FOLDER'),
             'SECRET_KEY': os.getenv('SECRET_KEY'),
             'SQLALCHEMY_DATABASE_URI': os.getenv('SQLALCHEMY_DATABASE_URI')
         })
