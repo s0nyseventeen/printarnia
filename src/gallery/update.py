@@ -29,10 +29,9 @@ class UpdateWork(AbstractUpdate):
         if request.method == 'GET':
             return render_template(self.template, work=work.get_or_404(id))
 
-        work.update({
-            'title': request.form['title'],
-            'description': request.form['description']
-        })
+        work = work.get(id)
+        work.title = request.form['title'],
+        work.description = request.form['description']
         db.session.commit()
         return redirect(url_for('gallery.detail', id=id))
 
