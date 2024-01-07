@@ -54,6 +54,18 @@ body{
 	flex: 1;
 }
 
+.flex--gap12px{
+	gap: 1.2rem;
+}
+
+.flex--gap24px{
+	gap: 2.4rem;
+}
+
+.flex--gap36px{
+	gap: 3.6rem;
+}
+
 .grid{
 	display: grid;
 }
@@ -208,12 +220,12 @@ body{
 	margin-bottom: 3.2rem;
 }
 
-.carousel--btn{
+.btn-link{
 	padding: 1.6rem 3.2rem;
 }
 
-.carousel--btn:link,
-.carousel--btn:visited{
+.btn-link:link,
+.btn-link:visited{
 	display: inline-block;
 	font-size: 2rem;
 	font-weight: 700;
@@ -223,8 +235,8 @@ body{
 	transition: all 0.3s;
 }
 
-.carousel--btn:hover,
-.carousel--btn:active{
+.btn-link:hover,
+.btn-link:active{
 	background-color: #232222;
 	color: #f4f4f4;
 }
@@ -298,7 +310,11 @@ body{
 	transform: scale(1.1);
 }
 
-.portfolio-img{
+.img-width20{
+	width: 20%;
+}
+
+.img-width100{
 	width: 100%;
 }
 
@@ -397,10 +413,6 @@ body{
 .socialmedia--number:hover,
 .socialmedia--number:active{
        color: #939393;
-}
-
-.auth-flex{
-	gap: 3.6rem;
 }
 
 .auth-text{

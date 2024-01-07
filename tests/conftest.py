@@ -1,20 +1,19 @@
+import io
 import os
 from pathlib import Path
 
 from pytest import fixture
 from sqlalchemy import text
 
-from canoe import create_app
-from canoe.extensions import db
-
-DEFAULT_USER = {'username': 'test', 'password': 'test', 'email': 'test@mail.ua'}
+from src import create_app
+from src.extensions import db
 
 
 @fixture
 def app():
     app = create_app({
         'TESTING': True,
-        'UPLOAD_FOLDER': 'canoe/static/images',
+        'UPLOAD_FOLDER': 'src/static/images',
         'SECRET_KEY': 'dev',
         'SQLALCHEMY_DATABASE_URI': os.getenv('TESTS_SHEIKHS')
     })
@@ -24,14 +23,13 @@ def app():
         db.session.commit()
 
     yield app
-    __remove_image(app)
+    __remove_images(app)
 
 
-def __remove_image(app):
-    for image in 'someimage.jpg', 'updated.jpg':
+def __remove_images(app):
+    for image in 'updated.jpg', 'image.jpg', 'image2.jpg':
         try:
-            path = Path(app.config['UPLOAD_FOLDER'])
-            os.remove(path / image)
+            os.remove(Path(app.config['UPLOAD_FOLDER']) / image)
         except FileNotFoundError:
             pass
 
@@ -61,3 +59,45 @@ class AuthActions:
 @fixture
 def auth(client):
     return AuthActions(client)
+
+
+@fixture
+def register_and_login_admin(app, auth):
+    with app.app_context():
+        auth.register(
+            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
+        )
+        auth.login('admin', 'admin')
+
+
+@fixture
+def create_work(register_and_login_admin, client):
+    return client.post(
+        '/create',
+        data={
+            'title': 'Test title',
+            'image': (io.BytesIO(b'randomstr'), 'image.jpg')
+        },
+        content_type='multipart/form-data'
+    )
+
+
+@fixture
+def add_new_image(create_work, client):
+    return client.post(
+        '/1/update/images/add_image',
+        data={
+            'image': (io.BytesIO(b'randomstr'), 'image2.jpg'),
+            'image_description': 'Image description'
+        },
+        content_type='multipart/form-data'
+    )
+
+
+@fixture
+def update_image(create_work, client):
+    return client.post(
+        '/1/update/images/detail/1',
+        data={'image': (io.BytesIO(b'randomstr'), 'image2.jpg')},
+        content_type='multipart/form-data'
+    )

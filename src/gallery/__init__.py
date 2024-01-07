@@ -2,4 +2,6 @@ from flask import Blueprint
 
 bp = Blueprint('gallery', __name__, template_folder='templates')
 
-from canoe.gallery import views
+from src.gallery import create
+from src.gallery import update
+from src.gallery import views

@@ -1,6 +1,6 @@
 import os
 
-from canoe import create_app
+from src import create_app
 
 
 def test_config_true():

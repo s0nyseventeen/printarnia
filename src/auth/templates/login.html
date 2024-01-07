@@ -1,20 +1,16 @@
 {% extends 'base.html' %}
-
-{% block title %}Register{% endblock %}
-
+{% block title %}Log In{% endblock %}
 {% block content %}
 	<section class="background-light dark flex--view-priority">
 		<div class="container">
-			<div class="pad-top64px pad-btm64px">
+			<div class="pad-top64px">
 				<form method="post">
-					<ul class="flex flex--column auth-flex auth-flex none-list-style">
+					<ul class="flex flex--column flex--gap36px none-list-style">
 						<li class="auth-text"><label for="username">Username</label></li>
 						<li><input name="username" id="username" required></li>
 						<li class="auth-text"><label for="password">Password</label></li>
 						<li><input type="password" name="password" id="password" required></li>
-						<li class="auth-text"><label for="email">Email</label></li>
-						<li><input name="email" id="email" required></li>
-						<li><input class="fontsize16px auth-btn auth-btn-primary" type="submit" value="Register"></li>
+						<li><input class="fontsize16px auth-btn auth-btn-primary" type="submit" value="Log In"></li>
 					</ul>
 				</form>
 			</div>

@@ -1,8 +1,12 @@
-.*
-!.dockerignore
+.flaskenv
+.git
+.coverage
+.mypy_cache
+.pytest_cache
 *.log
 __pycache__
 venv
+ve
 tests
 Jenkinsfile
 Dockerfile
@@ -10,3 +14,5 @@ pyproject.toml
 compose.yaml
 wsgi.py
 README.md
+sheikhs_docker_compose_variables.env
+markdown_img.png

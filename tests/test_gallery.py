@@ -1,10 +1,5 @@
-import io
-import os
-from pathlib import Path
-
-from canoe.gallery.models import Work
-from canoe.gallery.views import check_image_exists
-from canoe.gallery.views import get_work
+from src.gallery.models import Work
+from src.lib.funcs import get_upload_path
 
 
 def test_index(app, client):
@@ -19,324 +14,49 @@ def test_index_without_login(client):
         b'\xd1\x81\xd1\x83' in client.get('/').data
 
 
-def test_index_login(auth, client):
-    auth.register({
-        'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'
-    })
-    auth.login('admin', 'admin')
+def test_index_login(register_and_login_admin, client):
     assert b'Create' in client.get('/').data
 
 
-def test_create_get_status_code(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-    assert client.get('/create').status_code == 200
-
-
-def test_create_without_title_flash(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        resp = client.post(
-            '/create',
-            data={
-                'title': '',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-    assert b'Title is required' in resp.data
-
-
-def test_create_with_image_check_if_image_exists_in_db(
-    app, auth, client
-):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/create',
-            data={
-                'title': 'Test title2',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-        assert Work.query.filter_by(id=2).first().image == 'someimage.jpg'
-
-
-def test_create_with_image_redirect(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        resp = client.post(
-            '/create',
-            data={
-                'title': 'Test title2',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-    assert resp.headers['Location'] == '/'
-
-
-def test_create_with_image_static_file(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/create',
-            data={
-                'title': 'Test title2',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-    assert 'someimage.jpg' in os.listdir(Path(app.config['UPLOAD_FOLDER']))
-
-
-def test_create_without_image_db(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/create',
-            data={
-                'title': 'Test title2',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), '')
-            },
-            content_type='multipart/form-data'
-        )
-        assert Work.query.filter_by(id=2).first().image is None
-
-
-def test_create_without_image_redirect(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        resp = client.post(
-            '/create',
-            data={
-                'title': 'Test title2',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), '')
-            },
-            content_type='multipart/form-data'
-        )
-    assert resp.headers['Location'] == '/'
-
-
-def test_update_get_status_code(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-    assert client.get('/1/update').status_code == 200
-
-
-def test_update_title(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/1/update',
-            data={
-                'title': 'Updated',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-        assert Work.query.filter_by(id=1).first().title == 'Updated'
-
-
-def test_update_description(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/1/update',
-            data={
-                'title': 'Test title',
-                'description': 'Updated',
-                'image': (io.BytesIO(b'randomstr'), 'someimage.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-        assert Work.query.filter_by(id=1).first().description == 'Updated'
-
-
-def test_update_without_image_redirect(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        resp = client.post(
-            '/1/update',
-            data={
-                'title': 'Test title',
-                'description': 'Updated',
-                'image': (io.BytesIO(b'randomstr'), '')
-            },
-            content_type='multipart/form-data'
-        )
-    assert resp.headers['Location'] == '/1'
-
-
-def test_update_with_image_dbrecord(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/1/update',
-            data={
-                'title': 'Test title',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'updated.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-        assert Work.query.filter_by(id=1).first().image == 'updated.jpg'
-
-
-def test_update_with_image_static_file(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        client.post(
-            '/1/update',
-            data={
-                'title': 'Test title',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'updated.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-    assert 'updated.jpg' in os.listdir(Path(app.config['UPLOAD_FOLDER']))
-
-
-def test_update_with_image_redirect(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
-        resp = client.post(
-            '/1/update',
-            data={
-                'title': 'Test title',
-                'description': 'New design',
-                'image': (io.BytesIO(b'randomstr'), 'updated.jpg')
-            },
-            content_type='multipart/form-data'
-        )
-    assert resp.headers['Location'] == '/1'
-
-
-def test_detail(app, client):
+def test_detail(create_work, client):
     assert b'Test title' in client.get('/1').data
 
 
-def test_delete_work_dbrecord(app, auth, client):
+def test_delete_work_dbrecord(app, create_work, client):
     with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
         client.post('/1/delete')
-        assert Work.query.filter_by(id=1).first() is None
+        assert not Work.query.get(1)
 
 
-def test_delete_redirect(app, auth, client):
-    with app.app_context():
-        auth.register(
-            {'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-        )
-        auth.login('admin', 'admin')
+def test_delete_redirect(create_work, client):
     assert client.post('/1/delete').headers.get('Location') == '/'
 
 
-def test_remove_photo_image_column_none(app, client):
-    with (
-        app.app_context(),
-        open(Path(app.config['UPLOAD_FOLDER']) / 'someimage.jpg', 'wb') as f
-    ):
-        f.write(b'0xbb')
-        client.post('/1/remove_photo')
-        assert Work.query.first().image is None
-
-
-def test_remove_photo_remove_file(app, client):
-    path = Path(app.config['UPLOAD_FOLDER'])
-    image = path / 'someimage.jpg'
-
-    with app.app_context(), open(image, 'wb') as f:
-        f.write(b'0xbb')
-        client.post('/1/remove_photo')
-    assert image not in os.listdir(path)
-
-
-def test_remove_photo_redirect(app, client):
-    with (
-        app.app_context(),
-        open(Path(app.config['UPLOAD_FOLDER']) / 'someimage.jpg', 'wb') as f
-    ):
-        f.write(b'0xbb')
-    assert client.post('/1/remove_photo').headers['Location'] == '/'
-
-
-def test_get_work_exist(app):
+def test_delete_remove_photo(app, create_work, client):
     with app.app_context():
-        assert get_work(1).title == 'Test title'
+        client.post('/1/delete')
+        image = get_upload_path() / 'image.jpg'
+    assert not image.exists()
 
 
-def test_get_work_non_exist(auth, client):
-    client.post(
-        '/auth/register',
-        data={'username': 'admin', 'password': 'admin', 'email': 'admin@mail.ua'}
-    )
-    auth.login('admin', 'admin')
-    assert client.get('/2/update').status_code == 404
+def test_remove_photo_image_column_none(create_work, app, client):
+    with app.app_context():
+        client.post('/remove_photo/1')
+        assert not Work.query.get(1).images
 
 
-class Image:
-    def __init__(self, filename=''):
-        self.filename = filename
+def test_remove_photo_remove_file(app, create_work, client):
+    with app.app_context():
+        client.post('/remove_photo/1')
+        path = get_upload_path()
+        assert 'image.jpg' not in [f.name for f in path.iterdir() if f.is_file()]
 
 
-def test_check_image_true():
-    assert not check_image_exists(Image())
+def test_remove_photo_redirect(app, create_work, client):
+    with app.app_context():
+        assert client.post('/remove_photo/1').headers['Location'] == \
+            '/1/update/images'
 
 
-def test_check_image_false():
-    assert check_image_exists(Image('someimage.jpg'))
+def test_get_work_non_exist(register_and_login_admin, client):
+    assert client.get('/2').status_code == 404
