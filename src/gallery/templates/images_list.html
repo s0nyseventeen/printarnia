@@ -4,6 +4,11 @@
 	<section class="background-light dark flex--view-priority">
 		<div class="container">
 			<div class="flex flex--column flex--gap36px pad-top64px pad-btm64px">
+				<div class="flex flex--gap24px">
+					<a class="btn-link" href="{{ url_for('gallery.UpdateWork', id=work.id) }}">&#x2190;&nbsp;Update work</a>
+					<a class="btn-link fontsize16px" href="{{ url_for('gallery.AddWorkImage', id=work.id) }}">Add an image</a>
+					<a class="btn-link fontsize16px" href="{{ url_for('gallery.detail', id=work.id) }}">{{ work.title }} detail</a>
+				</div>
 				{% if images %}
 					{% for i in images %}
 						<div class="flex flex--column flex--gap12px">
@@ -21,16 +26,13 @@
 								<input class="fontsize16px auth-btn auth-btn-danger" type="submit" value="Remove photo" onclick="return confirm('Are you sure?');">
 							</form>
 						</div>
-						<hr/>
+						{% if not loop.last %}
+							<hr/>
+						{% endif %}
 					{% endfor %}
 				{% else %}
 					<p class="fontsize16px">No images yet</p>
 				{% endif %}
-				<div class="flex flex--gap24px">
-					<a class="btn-link" href="{{ url_for('gallery.UpdateWork', id=work.id) }}">&#x2190;&nbsp;Update work</a>
-					<a class="btn-link fontsize16px" href="{{ url_for('gallery.AddWorkImage', id=work.id) }}">Add an image</a>
-					<a class="btn-link fontsize16px" href="{{ url_for('gallery.detail', id=work.id) }}">{{ work.title }} detail</a>
-				</div>
 			</div>
 		</div>
 	</section>
