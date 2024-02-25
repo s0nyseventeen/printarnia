@@ -5,6 +5,7 @@
 .pytest_cache
 *.log
 __pycache__
+dist
 venv
 ve
 tests

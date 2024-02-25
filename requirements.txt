@@ -5,3 +5,4 @@ gunicorn
 coverage
 Flask-SQLAlchemy
 python-dotenv
+build

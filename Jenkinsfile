@@ -18,6 +18,18 @@ pipeline{
                                 '''
                         }
                 }
+                stage('Build and Push Wheel'){
+                        steps{
+                                sh '''
+                                python3 -mvenv venv && 
+                                . venv/bin/activate && 
+                                python -mbuild --wheel
+                                '''
+                                sshagent(credentials: ['ssh_key_sheikhs_server']) {
+                                        sh 'scp -rv dist ubuntu@3.131.151.177:/home/ubuntu'
+                                }
+                        }
+                }
                 stage('Build Docker Image'){
                         steps{
                                 sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
