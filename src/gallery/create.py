@@ -6,7 +6,7 @@ from flask import render_template
 from flask import request
 from flask import url_for
 
-from src.extensions import db
+from src import db
 from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work

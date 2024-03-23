@@ -6,7 +6,7 @@ from pytest import fixture
 from sqlalchemy import text
 
 from src import create_app
-from src.extensions import db
+from src import db
 
 
 @fixture

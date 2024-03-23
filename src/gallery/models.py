@@ -1,4 +1,4 @@
-from src.extensions import db
+from src import db
 
 
 class Work(db.Model):

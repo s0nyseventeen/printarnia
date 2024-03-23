@@ -3,7 +3,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import Mapped
 
-from src.extensions import db
+from src import db
 
 
 class Users(db.Model):

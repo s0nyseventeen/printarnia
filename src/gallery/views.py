@@ -5,8 +5,8 @@ from flask import render_template
 from flask import url_for
 from werkzeug.exceptions import abort
 
+from src import db
 from src.auth.views import login_required
-from src.extensions import db
 from src.gallery import bp
 from src.gallery.models import Image
 from src.gallery.models import Work

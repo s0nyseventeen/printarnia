@@ -12,9 +12,9 @@ from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
+from src import db
 from src.auth import bp
 from src.auth.models import Users
-from src.extensions import db
 
 
 @bp.route('/register', methods=('GET', 'POST'))
