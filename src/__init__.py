@@ -1,6 +1,9 @@
 import os
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 def create_app(test_config=None):
@@ -15,7 +18,6 @@ def create_app(test_config=None):
             'SQLALCHEMY_DATABASE_URI': os.getenv('SQLALCHEMY_DATABASE_URI')
         })
 
-    from .extensions import db
     db.init_app(app)
 
     from .auth import bp
