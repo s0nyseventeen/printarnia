@@ -34,21 +34,21 @@ pipeline{
                                 }
                         }
                 }
-                stage('Build Docker Image'){
-                        steps{
-                                sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
-                        }
-                }
-                stage('Deliver Docker Image to ECR'){
-                        steps{
-                                script{
-                                        sh """
-                                        aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com && 
-                                        docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPO_URI}:${IMAGE_TAG} && 
-                                        docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}
-                                        """
-                                }
-                        }
-                }
+//                stage('Build Docker Image'){
+//                        steps{
+//                                sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
+//                        }
+//                }
+//                stage('Deliver Docker Image to ECR'){
+//                        steps{
+//                                script{
+//                                        sh """
+//                                        aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com && 
+//                                        docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPO_URI}:${IMAGE_TAG} && 
+//                                        docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}
+//                                        """
+//                                }
+//                        }
+//                }
         }
 }
