@@ -2,7 +2,7 @@ pipeline{
         agent{ label 'builtin' }
         environment{
             AWS_ACCOUNT_ID='120691575341'
-            AWS_DEFAULT_REGION='us-east-2'
+            AWS_DEFAULT_REGION='eu-central-1'
             IMAGE_REPO_NAME='sheikhs'
             IMAGE_TAG='latest'
             REPO_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
