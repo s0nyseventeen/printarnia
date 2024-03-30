@@ -18,13 +18,17 @@ pipeline{
                                 '''
                         }
                 }
-                stage('Build and Push Wheel'){
+                stage('Build Wheel'){
                         steps{
                                 sh '''
                                 python3 -mvenv venv && 
                                 . venv/bin/activate && 
                                 python -mbuild --wheel
                                 '''
+                        }
+                }
+                stage('Push Wheel'){
+                        steps{
                                 sshagent(credentials: ['ssh_key_sheikhs_server']) {
                                         sh 'scp -rv dist ubuntu@3.131.151.177:/home/ubuntu'
                                 }
