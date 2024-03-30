@@ -30,7 +30,7 @@ pipeline{
                 stage('Push Wheel'){
                         steps{
                                 sshagent(credentials: ['ssh_key_sheikhs_server']) {
-                                        sh 'scp -rv dist ubuntu@3.131.151.177:/home/ubuntu'
+                                        sh 'scp -rv dist ubuntu@18.192.107.148:/home/ubuntu'
                                 }
                         }
                 }
