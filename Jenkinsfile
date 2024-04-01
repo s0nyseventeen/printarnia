@@ -1,5 +1,5 @@
 pipeline{
-        agent{ label 'builtin' }
+        agent any
         environment{
             AWS_ACCOUNT_ID='120691575341'
             AWS_DEFAULT_REGION='eu-central-1'
