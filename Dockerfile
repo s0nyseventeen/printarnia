@@ -8,4 +8,4 @@ RUN pip install -r /sheikhs/requirements.txt
 
 COPY . /sheikhs
 
-ENTRYPOINT python -mflask --app src run -h 0.0.0.0 -p 3000 --debug
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:5000", "-w", "3", "src.wsgi:app"]

@@ -1,6 +1,6 @@
+.coverage
 .flaskenv
 .git
-.coverage
 .mypy_cache
 .pytest_cache
 *.log
@@ -13,7 +13,7 @@ Jenkinsfile
 Dockerfile
 pyproject.toml
 compose.yaml
-wsgi.py
 README.md
 sheikhs_docker_compose_variables.env
 markdown_img.png
+markdown_img.png:Zone.Identifier
