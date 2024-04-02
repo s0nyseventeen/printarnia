@@ -4,4 +4,3 @@ pytest
 gunicorn
 coverage
 Flask-SQLAlchemy
-python-dotenv
