@@ -3,10 +3,17 @@ import os
 from pathlib import Path
 
 from pytest import fixture
+from sqlalchemy import create_engine
 from sqlalchemy import text
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import create_database
+from sqlalchemy_utils import database_exists
+from sqlalchemy_utils import drop_database
 
 from src import create_app
 from src import db
+
+__SQLALCHEMY_DATABASE_URI = os.getenv('TESTS_SHEIKHS')
 
 
 @fixture
@@ -15,15 +22,17 @@ def app():
         'TESTING': True,
         'UPLOAD_FOLDER': 'src/static/images',
         'SECRET_KEY': 'dev',
-        'SQLALCHEMY_DATABASE_URI': os.getenv('TESTS_SHEIKHS')
+        'SQLALCHEMY_DATABASE_URI': __SQLALCHEMY_DATABASE_URI
     })
-
-    with open(Path('tests/schema.sql')) as f, app.app_context():
-        db.session.execute(text(f.read()))
-        db.session.commit()
+    engine = create_engine(__SQLALCHEMY_DATABASE_URI)
+    url = engine.url
+    __create_database(engine, url)
+    __create_tables(app)
 
     yield app
+
     __remove_images(app)
+    drop_database(url)
 
 
 def __remove_images(app):
@@ -32,6 +41,19 @@ def __remove_images(app):
             os.remove(Path(app.config['UPLOAD_FOLDER']) / image)
         except FileNotFoundError:
             pass
+
+
+def __create_database(engine, url):
+    session = sessionmaker(bind=engine)
+    with session.begin():
+        if not database_exists(url):
+            create_database(url)
+
+
+def __create_tables(app):
+    with open(Path('tests/schema.sql')) as f, app.app_context():
+        db.session.execute(text(f.read()))
+        db.session.commit()
 
 
 @fixture
