@@ -3,7 +3,7 @@ from src import db
 
 class Work(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(256), nullable=False)
+    title = db.Column(db.String(256), unique=True, nullable=False)
     created = db.Column(db.String(256), nullable=False)
     description = db.Column(db.Text)
     images = db.relationship(
