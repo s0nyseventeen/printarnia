@@ -6,3 +6,6 @@ class Users(db.Model):
     username = db.Column(db.String(256), unique=True, nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.String(256))
+
+    def __repr__(self):
+        return f'<User(id={self.id}, username={self.username}, email={self.email})>'
