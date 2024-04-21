@@ -4,7 +4,6 @@ from pathlib import Path
 
 from pytest import fixture
 from sqlalchemy import create_engine
-from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database
 from sqlalchemy_utils import database_exists
@@ -27,7 +26,9 @@ def app():
     engine = create_engine(__SQLALCHEMY_DATABASE_URI)
     url = engine.url
     __create_database(engine, url)
-    __create_tables(app)
+
+    with app.app_context():
+        db.create_all()
 
     yield app
 
@@ -48,12 +49,6 @@ def __create_database(engine, url):
     with session.begin():
         if not database_exists(url):
             create_database(url)
-
-
-def __create_tables(app):
-    with open(Path('tests/schema.sql')) as f, app.app_context():
-        db.session.execute(text(f.read()))
-        db.session.commit()
 
 
 @fixture

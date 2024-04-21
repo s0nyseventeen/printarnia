@@ -39,7 +39,7 @@ def test_register_redirect(auth):
     assert auth.register(DEFAULT_USER).headers['Location'] == '/auth/login'
 
 
-def test_register_exception_uniqueness(app, auth):
+def test_register_exception_uniqueness(auth):
     for _ in range(2):
         resp = auth.register(DEFAULT_USER)
     assert b'User test is already registered' in resp.data
